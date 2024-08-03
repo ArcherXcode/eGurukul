@@ -16,9 +16,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.classroom.app",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.classroom.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
