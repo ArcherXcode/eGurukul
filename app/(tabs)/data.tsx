@@ -10,9 +10,27 @@ import { Link, router } from "expo-router";
 import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
 
 const MyScreen = () => {
-  const handleLogout = () => {
-    router.replace("/(authentication)/login");
+  
+  const handleScreens = (screen: string) => {
+    if (screen === "subjects") {
+      router.push("/subjects");
+    } else if (screen === "results") {
+      router.push("/results");
+    } else if (screen === "classTimetable") {
+      router.push("/classTimetable");
+    } else if (screen === "tests") {
+      router.push("/tests");
+    } else if (screen === "fees") {
+      router.push("/fees");
+    } else if (screen === "examRoutines") {
+      router.push("/examRoutines");
+    } else if (screen === "feedback") {
+      router.push("/feedback");
+    } else if (screen === "settings") {
+      router.push("/settings");
+    }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -31,7 +49,9 @@ const MyScreen = () => {
         </View>
       </View>
       <View style={styles.wholeContainer}>
-        <View style={styles.miniContainer}>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('subjects')}
+        >
           <Feather
             name="bookmark"
             size={20}
@@ -39,8 +59,10 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Subjects</Text>
-        </View>
-        <View style={styles.miniContainer}>
+        </Pressable>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('results')}
+        >
           <Entypo
             name="circular-graph"
             size={20}
@@ -48,8 +70,10 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Result</Text>
-        </View>
-        <View style={styles.miniContainer}>
+        </Pressable>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('classTimetable')}
+        >
           <Entypo
             name="calendar"
             size={20}
@@ -57,8 +81,10 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Class Timetable</Text>
-        </View>
-        <View style={styles.miniContainer}>
+        </Pressable>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('tests')}
+        >
           <MaterialIcons
             name="list-alt"
             size={20}
@@ -66,8 +92,10 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Tests & Quizzes</Text>
-        </View>
-        <View style={styles.miniContainer}>
+        </Pressable>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('fees')}
+        >
           <Entypo
             name="credit"
             size={20}
@@ -75,8 +103,10 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Fees</Text>
-        </View>
-        <View style={styles.miniContainer}>
+        </Pressable>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('examRoutines')}
+        >
           <Entypo
             name="book"
             size={20}
@@ -84,8 +114,10 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Exam Routines</Text>
-        </View>
-        <View style={styles.miniContainer}>
+        </Pressable>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('feedback')}
+        >
           <Entypo
             name="chat"
             size={20}
@@ -93,8 +125,10 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Feedback</Text>
-        </View>
-        <View style={styles.miniContainer}>
+        </Pressable>
+        <Pressable style={styles.miniContainer}
+        onPress={() => handleScreens('settings')}
+        >
           <Entypo
             name="cog"
             size={20}
@@ -102,7 +136,7 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Settings</Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

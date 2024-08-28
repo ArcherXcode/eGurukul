@@ -68,7 +68,7 @@ const App = () => {
             <Tabs.Screen name="home" options={{tabBarIcon : ({focused}) =>(
                 <MaterialCommunityIcons name='view-dashboard-outline' size={24} color={focused ? '#000' : '#fff'}/>
             ),
-            title: "Home",
+            title: "Dashboard",
             headerTitleStyle: {
                 color: 'white',
                 fontSize: 20,
