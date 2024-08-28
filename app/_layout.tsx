@@ -3,6 +3,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 export {
@@ -12,7 +13,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: '(authentication)',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -45,7 +46,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
 
   return (
-      <Stack>
+      <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+      >
+        <Stack.Screen name="(authentication)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
   );
