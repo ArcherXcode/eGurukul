@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 
 const MyScreen = () => {
     const [displayedText, setDisplayedText] = useState('');
@@ -8,7 +9,8 @@ const MyScreen = () => {
     const [index, setIndex] = useState(0);
     const fullText = 'eGurukul';
     const typingSpeed = 200; // milliseconds
-    const deletingSpeed = 100; // milliseconds
+    const deletingSpeed = 200; // milliseconds
+    const navigation = useNavigation();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -32,6 +34,14 @@ const MyScreen = () => {
         return () => clearTimeout(timer);
     }, [index, isTyping]);
 
+    const handleSignupPress = () => {
+       router.push('/signup');
+    }
+
+    const handleLoginPress = () => {
+        router.replace('/(tabs)/home');
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -49,14 +59,12 @@ const MyScreen = () => {
                     <TextInput style={styles.inputBox} placeholder="Enter your password" />
                 </View>
                 <View style={styles.button}>
-                    <Pressable style={styles.buttonBox}>
+                <Pressable style={styles.buttonBox} onPress={handleLoginPress}>
                         <Text style={styles.buttonText}>Login</Text>
                     </Pressable>
-                    <View style={styles.buttonBox}>
-                        <Link href="/signup">
-                            <Text style={styles.buttonText}>SignUp</Text>
-                        </Link>
-                    </View>
+                    <Pressable style={styles.buttonBox} onPress={handleSignupPress}>
+                        <Text style={styles.buttonText}>Sign-Up</Text>
+                    </Pressable>
                 </View>
                 <Link href="/resetPassword">
                     <Text style={styles.footerText}>Forgot Password?</Text>
@@ -71,7 +79,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#1e90FF',
+        backgroundColor: '#ffffff',
         width: '100%',
         // paddingVertical: 50,
     },
@@ -95,14 +103,14 @@ const styles = StyleSheet.create({
         top: "25%",
     },
     headerText: {
-        color: '#fff',
+        color: '#1e90FF',
         fontSize: 56,
         fontWeight: 'bold',
     },
     headerSub: {
         position: 'absolute',
         top: '90%',
-        color: '#fff',
+        color: '#000',
         fontSize: 16,
         fontWeight: '300',
     },
@@ -118,9 +126,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column',
         top: "25%",
-        backgroundColor: '#151b54',
+        backgroundColor: '#1e90FF',
         borderRadius: 15,
-        paddingVertical: 25
+        paddingVertical: 25,
+        elevation: 5,
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 3, height: 5},
+        shadowRadius: 3
     },
     input: {
         width: '80%',
@@ -153,14 +166,14 @@ const styles = StyleSheet.create({
     },
     buttonBox: {
         width: '45%',
-        backgroundColor: '#1e90FF',
+        backgroundColor: '#fff',
         padding: 10,
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
     },
     buttonText: {
-        color: '#fff',
+        color: '#1e90FF',
         fontSize: 16,
         fontWeight: 'bold',
     },

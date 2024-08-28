@@ -1,8 +1,12 @@
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { View, Text, StyleSheet} from 'react-native';
+import { Link, router } from 'expo-router';
+import { View, Text, StyleSheet, Pressable} from 'react-native';
 
 const MyScreen = () => {
+    const handleLogout = () => {
+        router.replace('/(authentication)/login');
+    }
     return (
         <View style={styles.container}>
             <View style={styles.miniContainer}>
@@ -33,10 +37,10 @@ const MyScreen = () => {
                 <Entypo name='cog' size={20} color={'#000'} style={{marginRight: 10}}/>
                 <Text style={styles.buttonText}>Settings</Text>
             </View>
-            <View style={styles.miniContainer}>
+            <Pressable style={styles.miniContainer} onPress={handleLogout}>
                 <Entypo name='log-out' size={20} color={'#000'} style={{marginRight: 10}}/>
                 <Text style={styles.buttonText}>Logout</Text>
-            </View>
+            </Pressable>
         </View>
     );
 };
