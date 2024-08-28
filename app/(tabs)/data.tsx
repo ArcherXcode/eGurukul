@@ -52,6 +52,7 @@ const MyScreen = () => {
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('subjects')}
         >
+          <View style={styles.miniFirstRow}>
           <Feather
             name="bookmark"
             size={20}
@@ -59,10 +60,20 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Subjects</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('results')}
         >
+          <View style={styles.miniFirstRow}>
           <Entypo
             name="circular-graph"
             size={20}
@@ -70,10 +81,20 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Result</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('classTimetable')}
         >
+          <View style={styles.miniFirstRow}>
           <Entypo
             name="calendar"
             size={20}
@@ -81,10 +102,20 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Class Timetable</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('tests')}
         >
+          <View style={styles.miniFirstRow}>
           <MaterialIcons
             name="list-alt"
             size={20}
@@ -92,10 +123,20 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Tests & Quizzes</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('fees')}
         >
+          <View style={styles.miniFirstRow}>
           <Entypo
             name="credit"
             size={20}
@@ -103,10 +144,20 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Fees</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('examRoutines')}
         >
+          <View style={styles.miniFirstRow}>
           <Entypo
             name="book"
             size={20}
@@ -114,10 +165,20 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Exam Routines</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('feedback')}
         >
+          <View style={styles.miniFirstRow}>
           <Entypo
             name="chat"
             size={20}
@@ -125,10 +186,20 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Feedback</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
         onPress={() => handleScreens('settings')}
         >
+          <View style={styles.miniFirstRow}>
           <Entypo
             name="cog"
             size={20}
@@ -136,6 +207,15 @@ const MyScreen = () => {
             style={{ marginRight: 10 }}
           />
           <Text style={styles.buttonText}>Settings</Text>
+          </View>
+          <View style={styles.miniSecondRow}>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={10}
+            color={"#000"}
+            style={{ marginRight: 10 }}
+          />
+          </View>
         </Pressable>
       </View>
     </View>
@@ -213,6 +293,18 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "black",
     textAlign: "left",
+  },
+  miniFirstRow:{
+    flexDirection: "row", 
+    width: '70%', 
+    justifyContent:'flex-start', 
+    alignItems: 'center'
+  },
+  miniSecondRow:{
+    flexDirection: "row", 
+    width: '30%', 
+    justifyContent:'flex-end', 
+    alignItems: 'center'
   },
 });
 
