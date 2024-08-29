@@ -2,6 +2,8 @@ import {
   Entypo,
   Feather,
   FontAwesome,
+  FontAwesome5,
+  Ionicons,
   MaterialIcons,
   SimpleLineIcons,
 } from "@expo/vector-icons";
@@ -159,8 +161,8 @@ const MyScreen = () => {
         onPress={() => handleScreens('examRoutines')}
         >
           <View style={styles.miniFirstRow}>
-          <Entypo
-            name="book"
+          <FontAwesome5
+            name="tasks"
             size={20}
             color={"#000"}
             style={{ marginRight: 10 }}
@@ -180,8 +182,8 @@ const MyScreen = () => {
         onPress={() => handleScreens('feedback')}
         >
           <View style={styles.miniFirstRow}>
-          <Entypo
-            name="chat"
+          <Ionicons
+            name="chatbox-ellipses-outline"
             size={20}
             color={"#000"}
             style={{ marginRight: 10 }}

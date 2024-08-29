@@ -1,7 +1,7 @@
 import React from 'react';
 import {Tabs, router} from 'expo-router';
 import {View, Text, StyleSheet, Pressable, Image, Platform} from 'react-native';
-import { Entypo, FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
+import { AntDesign, Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 // Import your tab screens here
 
@@ -27,7 +27,7 @@ const App = () => {
                 borderTopColor: '#1e90FF',
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
-                height: Platform.OS === 'ios' ? 90 : 80,
+                height: Platform.OS === 'ios' ? 80 : 80,
             },
             tabBarIconStyle: {
                 color: '#fff',
@@ -46,7 +46,7 @@ const App = () => {
                 marginHorizontal: 15,
                 marginTop: Platform.OS === 'ios' ? 5 : 10,
                 padding: 0,
-                marginBottom: Platform.OS === 'ios' ? 5 : 20,
+                marginBottom: Platform.OS === 'ios' ? 0 : 20,
             },
             headerStyle: {
                 backgroundColor: '#1e90FF'
@@ -71,7 +71,7 @@ const App = () => {
         }}
         >
             <Tabs.Screen name="home" options={{tabBarIcon : ({focused}) =>(
-                <MaterialCommunityIcons name='view-dashboard-outline' size={24} color={focused ? '#000' : '#fff'}/>
+                <Ionicons name='grid' size={24} color={focused ? '#000' : '#fff'}/>
             ),
             title: "Dashboard",
             headerTitleStyle: {
@@ -84,7 +84,7 @@ const App = () => {
             },
             }}/>
             <Tabs.Screen name="classroom" options={{tabBarIcon : ({focused}) =>(
-                <SimpleLineIcons name='social-dropbox' size={24} color={focused ? '#000' : '#fff'}/>
+                <FontAwesome5 name='chalkboard-teacher' size={24} color={focused ? '#000' : '#fff'}/>
             ),
             title: "Class Rooms",
             headerTitleStyle: {
@@ -97,7 +97,7 @@ const App = () => {
             }
             }}/>
             <Tabs.Screen name="assignments" options={{tabBarIcon : ({focused}) =>(
-                <FontAwesome5 name='tasks' size={24} color={focused ? '#000' : '#fff'}/>
+                <FontAwesome5 name='book' size={24} color={focused ? '#000' : '#fff'}/>
             ),
             title: "Attendance",
             headerTitleStyle: {
@@ -110,7 +110,7 @@ const App = () => {
             }
             }}/>
             <Tabs.Screen name="attendance" options={{tabBarIcon : ({focused}) =>(
-                <Entypo name='area-graph' size={24} color={focused ? '#000' : '#fff'}/>
+                <MaterialCommunityIcons name='poll' size={24} color={focused ? '#000' : '#fff'}/>
             ),
             title: "Attendance",
             headerTitleStyle: {
@@ -123,7 +123,7 @@ const App = () => {
             }
             }}/>
             <Tabs.Screen name="data" options={{tabBarIcon : ({focused}) =>(
-                <Entypo name= 'database' size={24} color={focused ? '#000' : '#fff'}/>
+                <Feather name='layers' size={24} color={focused ? '#000' : '#fff'}/>
             ),
             title: "Modules",
             headerTitleStyle: {
