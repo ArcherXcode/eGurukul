@@ -8,26 +8,26 @@ const App = () => {
     return (
         <Stack
         initialRouteName='login'
+        screenOptions={{
+            headerShown: false,
+        }}
         >
             <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen name="signup" options={{ 
-                title: 'Sign Up',
-                headerLeft: () => (
-                    <Link href="/login">
-                        <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={24} color={'#000'}/>
-                        <Text>Back</Text>
-                        </View>
-                    </Link>
-                ),
-                 }} />
             <Stack.Screen name="resetPassword" options={{ 
                 title: 'Reset Password',
+                headerShown: true,
+                headerStyle: {
+                    backgroundColor: '#1e90FF',
+                },
+                headerTitleStyle: {
+                    color: '#fff',
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                },
                 headerLeft: () => (
-                    <Link href="/login">
+                    <Link href="/login" style={{marginTop: 5, left: -10}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={24} color={'#000'}/>
-                        <Text>Back</Text>
+                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
                         </View>
                     </Link>
                 ),

@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Link } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 const MyScreen = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Signup</Text>
+            <Text style={styles.text}>Student</Text>
+            <StatusBar style="light" />
         </View>
     );
 };

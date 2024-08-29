@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
@@ -9,12 +9,13 @@ const MyScreen = () => {
     };
     return (
         <View style={styles.container}>
-            <Pressable 
+            <TouchableOpacity 
             onPress={() => handleLogout()}
             style={styles.logoutButton}
+            activeOpacity={0.5}
             >
                 <Text style={styles.logoutText}>Logout</Text>
-            </Pressable>
+            </TouchableOpacity>
             <StatusBar style="light" />
         </View>
     );
