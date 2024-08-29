@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { Link, router } from "expo-router";
 import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 const MyScreen = () => {
   
@@ -218,6 +219,7 @@ const MyScreen = () => {
           </View>
         </Pressable>
       </View>
+      <StatusBar style="light" />
     </View>
   );
 };

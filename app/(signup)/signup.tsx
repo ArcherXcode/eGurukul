@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Link, router } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 const MyScreen = () => {
     const [displayedText, setDisplayedText] = useState('');
@@ -54,6 +55,7 @@ const MyScreen = () => {
                 </View>
                     <Text style={styles.footerText}>Already have an account? <Link href="/login">Login</Link></Text>
             </View>
+            <StatusBar style="dark" />
         </View>
     );
 };

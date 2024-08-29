@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-nativ
 import { Link, router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 
 const MyScreen = () => {
   const [displayedText, setDisplayedText] = useState("");
@@ -74,6 +75,7 @@ const MyScreen = () => {
           <Text style={styles.footerText}>Go back to Login?</Text>
         </Link>
       </View>
+      <StatusBar style="dark" />
     </View>
   );
 };

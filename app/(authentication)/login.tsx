@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { Link, router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 
 const MyScreen = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [index, setIndex] = useState(0);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const fullText = "eGurukul";
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
@@ -56,22 +64,41 @@ const MyScreen = () => {
         <View style={styles.input}>
           <Text style={styles.inputLabel}>Enrollment Number</Text>
           <TextInput
-            style={styles.inputBox}
+            style={styles.inputBoxEmail}
             placeholder="Enter your Enrollment Number"
           />
         </View>
         <View style={styles.input}>
           <Text style={styles.inputLabel}>Password</Text>
-          <TextInput
-            style={styles.inputBox}
-            placeholder="Enter your password"
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.inputBox}
+              placeholder="Password"
+              secureTextEntry={!passwordVisible} // Show/hide password text
+            />
+            <TouchableOpacity
+              style={styles.showHideButton}
+              onPress={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+            >
+              <Text style={styles.showHideText}>
+                {passwordVisible ? "Hide" : "Show"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.button}>
-          <TouchableOpacity style={styles.buttonBox} onPress={handleLoginPress} activeOpacity={0.5}>
+          <TouchableOpacity
+            style={styles.buttonBox}
+            onPress={handleLoginPress}
+            activeOpacity={0.5}
+          >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonBox} onPress={handleSignupPress} activeOpacity={0.5}>
+          <TouchableOpacity
+            style={styles.buttonBox}
+            onPress={handleSignupPress}
+            activeOpacity={0.5}
+          >
             <Text style={styles.buttonText}>Sign-Up</Text>
           </TouchableOpacity>
         </View>
@@ -79,6 +106,7 @@ const MyScreen = () => {
           <Text style={styles.footerText}>Forgot Password?</Text>
         </Link>
       </View>
+      <StatusBar style="dark" />
     </View>
   );
 };
@@ -90,7 +118,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#cfe0fc",
     width: "100%",
-    // paddingVertical: 50,
   },
   text: {
     fontSize: 20,
@@ -153,6 +180,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,
+    flex: 1,
+  },
+  inputBoxEmail:{
+    width: "100%",
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 5,
   },
   footerText: {
     color: "#ffffff",
@@ -185,6 +219,20 @@ const styles = StyleSheet.create({
     color: "#1e90FF",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 5,
+  },
+  showHideButton: {
+    padding: 10,
+  },
+  showHideText: {
+    color: "#1e90FF",
+    fontSize: 14,
+    marginRight: 0,
   },
 });
 

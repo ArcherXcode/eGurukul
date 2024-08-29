@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Link, router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons"; // Import icons for visibility toggle
 
 const MyScreen = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [index, setIndex] = useState(0);
+  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); // State for confirm password visibility
   const fullText = "eGurukul";
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
@@ -48,19 +51,39 @@ const MyScreen = () => {
         <Text style={styles.subHeaderText}>Reset Password</Text>
         <View style={styles.input}>
           <Text style={styles.inputLabel}>Enter Your New Password</Text>
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <TextInput
-            style={styles.inputBoxEmail}
-            placeholder="New Password"
-          />
-            </View>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.inputBox}
+              placeholder="New Password"
+              secureTextEntry={!passwordVisible} // Show/hide password text
+            />
+            <TouchableOpacity
+              style={styles.showHideButton}
+              onPress={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+            >
+              <Text style={styles.showHideText}>
+                {passwordVisible ? "Hide" : "Show"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.input}>
           <Text style={styles.inputLabel}>Confirm Your Password</Text>
-          <TextInput
-            style={styles.inputBoxCode}
-            placeholder="Confirm Password"
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.inputBox}
+              placeholder="Confirm Password"
+              secureTextEntry={!confirmPasswordVisible} // Show/hide confirm password text
+            />
+            <TouchableOpacity
+              style={styles.showHideButton}
+              onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)} // Toggle password visibility
+            >
+              <Text style={styles.showHideText}>
+                {confirmPasswordVisible ? "Hide" : "Show"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.button}>
           <TouchableOpacity style={styles.buttonBox} activeOpacity={0.5} onPress={() => router.push('/login')}>
@@ -68,6 +91,7 @@ const MyScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <StatusBar style="dark" />
     </View>
   );
 };
@@ -79,7 +103,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#cfe0fc",
     width: "100%",
-    // paddingVertical: 50,
   },
   text: {
     fontSize: 20,
@@ -137,16 +160,16 @@ const styles = StyleSheet.create({
     width: "80%",
     marginVertical: 10,
   },
-  inputBoxCode: {
-    width: "100%",
+  inputBox: {
+    flex: 1,
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,
   },
-  inputBoxEmail: {
-    width: "100%",
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#fff",
-    padding: 10,
     borderRadius: 5,
   },
   footerText: {
@@ -181,14 +204,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-    otpButton: {
-        width: "15%",
-        backgroundColor: "#fff",
-        padding: 5,
-        borderRadius: 5,
-        justifyContent: "center",
-        alignItems: "center",
-    },
+  otpButton: {
+    width: "15%",
+    backgroundColor: "#fff",
+    padding: 5,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  showHideButton: {
+    padding: 10,
+  },
+  showHideText: {
+    color: "#1e90FF",
+    fontSize: 14,
+    marginRight: 0,
+  },
 });
 
 export default MyScreen;
