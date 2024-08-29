@@ -47,32 +47,26 @@ const MyScreen = () => {
       <View style={styles.body}>
         <Text style={styles.subHeaderText}>Reset Password</Text>
         <View style={styles.input}>
-          <Text style={styles.inputLabel}>School Email ID</Text>
+          <Text style={styles.inputLabel}>Enter Your New Password</Text>
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TextInput
             style={styles.inputBoxEmail}
-            placeholder="Your School Email ID"
+            placeholder="New Password"
           />
-          <TouchableOpacity style={styles.otpButton} activeOpacity={0.5}>
-                <MaterialCommunityIcons name="email-check-outline" size={24} color="#1e90FF" />
-            </TouchableOpacity>
             </View>
         </View>
         <View style={styles.input}>
-          <Text style={styles.inputLabel}>OTP</Text>
+          <Text style={styles.inputLabel}>Confirm Your Password</Text>
           <TextInput
             style={styles.inputBoxCode}
-            placeholder="Enter the OTP"
+            placeholder="Confirm Password"
           />
         </View>
         <View style={styles.button}>
-          <TouchableOpacity style={styles.buttonBox} activeOpacity={0.5} onPress={() => router.push('/createPassword')}>
-            <Text style={styles.buttonText}>Verify OTP</Text>
+          <TouchableOpacity style={styles.buttonBox} activeOpacity={0.5} onPress={() => router.push('/login')}>
+            <Text style={styles.buttonText}>Reset Password</Text>
           </TouchableOpacity>
         </View>
-        <Link href="/login">
-          <Text style={styles.footerText}>Go back to Login?</Text>
-        </Link>
       </View>
     </View>
   );
@@ -150,7 +144,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   inputBoxEmail: {
-    width: "80%",
+    width: "100%",
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,
@@ -175,7 +169,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonBox: {
-    width: "45%",
+    width: "60%",
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,

@@ -13,25 +13,8 @@ const App = () => {
         }}
         >
             <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen name="resetPassword" options={{ 
-                title: 'Reset Password',
-                headerShown: true,
-                headerStyle: {
-                    backgroundColor: '#1e90FF',
-                },
-                headerTitleStyle: {
-                    color: '#fff',
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                },
-                headerLeft: () => (
-                    <Link href="/login" style={{marginTop: 5, left: -10}}>
-                        <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
-                        </View>
-                    </Link>
-                ),
-             }} />
+            <Stack.Screen name="resetPassword" options={{ headerShown: false }} />
+            <Stack.Screen name="createPassword" options={{ headerShown: false }} />
         </Stack>
     );
 };
