@@ -17,12 +17,13 @@ const App = () => {
                 fontSize: 20,
                 fontWeight: 'bold',
             },
+            headerTitleAlign: 'center',
         }}
         >
             <Stack.Screen name="subjects" options={{ 
                 title: 'Subjects',
                 headerLeft: () => (
-                    <Link href="/data" style={{marginTop: 5, left: -10}}>
+                    <Link href="/data" style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <Entypo name='chevron-left' size={28} color={'#fff'}/>
                         </View>

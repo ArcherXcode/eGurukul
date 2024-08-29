@@ -11,6 +11,8 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 
 const MyScreen = () => {
+  const [enrollmentId, setEnrollmentId] = useState("");
+  const [password, setPassword] = useState("");
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [index, setIndex] = useState(0);
@@ -18,7 +20,6 @@ const MyScreen = () => {
   const fullText = "eGurukul";
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
-  const navigation = useNavigation();
 
   useEffect(() => {
     const timer = setTimeout(
@@ -62,10 +63,12 @@ const MyScreen = () => {
       <View style={styles.body}>
         <Text style={styles.subHeaderText}>Login</Text>
         <View style={styles.input}>
-          <Text style={styles.inputLabel}>Enrollment Number</Text>
+          <Text style={styles.inputLabel}>School Email ID</Text>
           <TextInput
             style={styles.inputBoxEmail}
-            placeholder="Enter your Enrollment Number"
+            placeholder="Enter your School Email ID"
+            value={enrollmentId}
+            onChangeText={(text) => setEnrollmentId(text)}
           />
         </View>
         <View style={styles.input}>
@@ -73,6 +76,8 @@ const MyScreen = () => {
           <View style={styles.passwordContainer}>
             <TextInput
               style={styles.inputBox}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
               placeholder="Password"
               secureTextEntry={!passwordVisible} // Show/hide password text
             />

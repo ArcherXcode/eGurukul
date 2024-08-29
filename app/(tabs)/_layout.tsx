@@ -1,6 +1,6 @@
 import React from 'react';
 import {Tabs, router} from 'expo-router';
-import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Image, Platform} from 'react-native';
 import { Entypo, FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 // Import your tab screens here
@@ -27,7 +27,7 @@ const App = () => {
                 borderTopColor: '#1e90FF',
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
-                height: 90,
+                height: Platform.OS === 'ios' ? 90 : 80,
             },
             tabBarIconStyle: {
                 color: '#fff',
@@ -44,10 +44,15 @@ const App = () => {
             tabBarItemStyle: {
                 borderRadius: 10,
                 marginHorizontal: 15,
-                marginTop: 5,
-                marginBottom: 5,
+                marginTop: Platform.OS === 'ios' ? 5 : 10,
                 padding: 0,
+                marginBottom: Platform.OS === 'ios' ? 5 : 20,
             },
+            headerStyle: {
+                backgroundColor: '#1e90FF'
+            },
+            headerStatusBarHeight: Platform.OS === 'ios' ? 60 : 40,
+            headerTitleAlign: 'center',
             headerRight: () => (
                 <Pressable onPress={() => handleNotifications()}>
                 <View style={styles.notificationIcon}>

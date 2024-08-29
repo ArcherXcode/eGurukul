@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { UIActivityIndicator } from 'react-native-indicators';
 
+
 const MyScreen = () => {
     const [loading, setLoading] = useState(true);
     const router = useRouter();

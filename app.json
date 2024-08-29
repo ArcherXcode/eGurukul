@@ -16,11 +16,11 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.classroom.app",
+      "bundleIdentifier": "com.egurukul.app",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.classroom.app",
+      "package": "com.egurukul.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
