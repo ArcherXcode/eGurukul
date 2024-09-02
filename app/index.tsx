@@ -3,7 +3,10 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { UIActivityIndicator } from 'react-native-indicators';
+import { config } from '../config/config';
+import { initializeApp } from '@firebase/app';
 
+const app = initializeApp(config.firebaseConfig);
 
 const MyScreen = () => {
     const [loading, setLoading] = useState(true);
