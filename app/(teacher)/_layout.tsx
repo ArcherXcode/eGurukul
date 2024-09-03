@@ -7,7 +7,7 @@ const App = () => {
 
     return (
         <Stack
-        initialRouteName='signup'
+        initialRouteName='teacherSignup'
         screenOptions={{
             headerStyle: {
                 backgroundColor: '#1e90FF',
@@ -19,10 +19,13 @@ const App = () => {
             },
         }}
         >
-            <Stack.Screen name="signup" options={{ 
+            <Stack.Screen name="teacherSignup" options={{ 
                 headerShown: false,
                  }} />
-            <Stack.Screen name="studentSignup" options={{ 
+            <Stack.Screen name="subjectTeacherSignup" options={{ 
+                headerShown: false,
+             }} />
+             <Stack.Screen name="coordinatorSignup" options={{ 
                 headerShown: false,
              }} />
         </Stack>

@@ -118,9 +118,23 @@ const MyScreen = () => {
         size: 18
       },
       {
+        id: "2",
+        label: "Mrs.",
+        value: "Mrs.",
+        color: "#fff",
+        size: 18
+      },
+      {
         id: "3",
         label: "Ms.",
         value: "Ms.",
+        color: "#fff",
+        size: 18
+      },
+      {
+        id: "4",
+        label: "Dr.",
+        value: "Dr.",
         color: "#fff",
         size: 18
       },
@@ -256,7 +270,7 @@ const MyScreen = () => {
           <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => router.push('/login')}>
             <Text style={styles.buttonText}>Sign-Up</Text>
           </TouchableOpacity>
-          <Link href='/signup'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
+          <Link href='/(teacher)/teacherSignup'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
         </View>
       </View>
       <StatusBar style="dark" />
@@ -350,7 +364,7 @@ const styles = StyleSheet.create({
   },
   radioContainer: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     width: windowWidth - 80,
     borderRadius: 8,
     marginLeft: -8,

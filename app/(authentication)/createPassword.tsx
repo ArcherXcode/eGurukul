@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-nativ
 import { Link, router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons"; // Import icons for visibility toggle
+import { AntDesign } from "@expo/vector-icons"; // Import icons for visibility toggle
 
 const MyScreen = () => {
   const [displayedText, setDisplayedText] = useState("");
@@ -90,6 +90,7 @@ const MyScreen = () => {
             <Text style={styles.buttonText}>Reset Password</Text>
           </TouchableOpacity>
         </View>
+        <Link href='/resetPassword'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
       </View>
       <StatusBar style="dark" />
     </View>

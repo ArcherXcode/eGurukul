@@ -9,7 +9,7 @@ import {
 import { Link, router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
 
 const MyScreen = () => {
   const [enrollmentId, setEnrollmentId] = useState("");

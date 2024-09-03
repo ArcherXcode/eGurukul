@@ -4,6 +4,7 @@ import { Link, router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
+import { AntDesign } from "@expo/vector-icons";
 
 const MyScreen = () => {
   const [displayedText, setDisplayedText] = useState("");
@@ -71,9 +72,7 @@ const MyScreen = () => {
             <Text style={styles.buttonText}>Verify OTP</Text>
           </TouchableOpacity>
         </View>
-        <Link href="/login">
-          <Text style={styles.footerText}>Go back to Login?</Text>
-        </Link>
+        <Link href='/login'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
       </View>
       <StatusBar style="dark" />
     </View>

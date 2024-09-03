@@ -45,16 +45,16 @@ const MyScreen = () => {
             <View style={styles.body}>
                 <Text style={styles.subHeaderText}>Select Your Role</Text>
                 <View style={styles.input}>
-                    <TouchableOpacity style={styles.buttonBox} onPress={() => router.push('/studentSignup')} activeOpacity={0.5}>
-                        <Text style={styles.buttonText}>I am a Student</Text>
+                    <TouchableOpacity style={styles.buttonBox} onPress={() => router.push('/(teacher)/subjectTeacherSignup')} activeOpacity={0.5}>
+                        <Text style={styles.buttonText}>I am a Lecturer</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={[styles.input, {paddingBottom: 10}]}>
-                    <TouchableOpacity style={styles.buttonBox} onPress={() => router.push('/(teacher)/teacherSignup')} activeOpacity={0.5}>
-                        <Text style={styles.buttonText}>I am a Teacher</Text>
+                    <TouchableOpacity style={styles.buttonBox} onPress={() => router.push('/(teacher)/coordinatorSignup')} activeOpacity={0.5}>
+                        <Text style={styles.buttonText}>I am a Coordinator</Text>
                     </TouchableOpacity>
                 </View>
-                <Link href='/login'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
+                    <Link href="/signup"><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
             </View>
             <StatusBar style="dark" />
         </View>
