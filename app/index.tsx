@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { UIActivityIndicator } from 'react-native-indicators';
-import { config } from '../config/config';
-import { initializeApp } from '@firebase/app';
-
-const app = initializeApp(config.firebaseConfig);
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 const MyScreen = () => {
     const [loading, setLoading] = useState(true);
-    const router = useRouter();
 
-    useEffect(() => {
-        // Simulate a delay or perform some async task
-        setTimeout(() => {
-            setLoading(false);
-            router.push('/login');
-        }, 1000); // 1-second delay
-    }, []);
+    const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>() 
+  const router = useRouter();
+  const segments = useSegments();
+  
+  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
+    console.log('onAuthStateChanged', user);
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
 
-    if (loading) {
-        return (
-            <View style={styles.container}>
-                <UIActivityIndicator color="#1e90FF" />
-                <StatusBar style="light" />
-            </View>
-        );
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  useEffect(() => {
+    if (initializing) return;
+    if (user) {
+      router.replace('/(tabs)/home');
+    } else {
+      router.replace('/(authentication)/login');
     }
-
-    return null; // Nothing to display after redirection
+  }
+  , [initializing, user]);
 };
 
 const styles = StyleSheet.create({

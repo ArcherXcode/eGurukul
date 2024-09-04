@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import auth from '@react-native-firebase/auth';
 
 const MyScreen = () => {
     const handleLogout = () => {
+        auth().signOut();
         router.replace('/(authentication)/login');
     };
     return (

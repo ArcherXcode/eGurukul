@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Link, router } from "expo-router";
-import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
+import { signInWithEmailAndPassword} from "@react-native-firebase/auth";
+import auth from "@react-native-firebase/auth";
+import { FirebaseError } from "@firebase/util";
 
 const MyScreen = () => {
-  const [enrollmentId, setEnrollmentId] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
@@ -47,12 +49,20 @@ const MyScreen = () => {
     return () => clearTimeout(timer);
   }, [index, isTyping]);
 
+  const login = async () => {
+    setLoading(true);
+    try {
+      await auth().signInWithEmailAndPassword(email, password);
+      router.replace("/home");
+    } catch (e: any) {
+      const error = e as FirebaseError;
+      alert("Registration Failed: " + error.message);
+      setLoading(false);
+    }
+  }
+
   const handleSignupPress = () => {
     router.push("/signup");
-  };
-
-  const handleLoginPress = () => {
-    router.replace("/(tabs)/home");
   };
 
   return (
@@ -68,8 +78,11 @@ const MyScreen = () => {
           <TextInput
             style={styles.inputBoxEmail}
             placeholder="Enter your School Email ID"
-            value={enrollmentId}
-            onChangeText={(text) => setEnrollmentId(text)}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="email"
           />
         </View>
         <View style={styles.input}>
@@ -81,6 +94,9 @@ const MyScreen = () => {
               onChangeText={(text) => setPassword(text)}
               placeholder="Password"
               secureTextEntry={!passwordVisible} // Show/hide password text
+              autoCapitalize="none"
+              autoCorrect={false}
+              autoComplete="password"
             />
             <TouchableOpacity
               style={styles.showHideButton}
@@ -95,7 +111,7 @@ const MyScreen = () => {
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.buttonBox}
-            onPress={handleLoginPress}
+            onPress={login}
             activeOpacity={0.5}
           >
             <Text style={styles.buttonText}>Login</Text>

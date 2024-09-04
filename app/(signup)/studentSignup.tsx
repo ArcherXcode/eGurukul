@@ -11,15 +11,21 @@ import {
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { createUserWithEmailAndPassword } from "@react-native-firebase/auth";
+import auth from "@react-native-firebase/auth";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
+import { FirebaseError } from "@firebase/util";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const MyScreen = () => {
   const [selectedPrefix, setSelectedPrefix] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState("");
+  const [selectedPassword, setSelectedPassword] = useState("");
+  const [selectedConfirmPassword, setSelectedConfirmPassword] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -56,6 +62,22 @@ const MyScreen = () => {
 
     return () => clearTimeout(timer);
   }, [index, isTyping]);
+
+  const signup = async () => {
+    setLoading(true);
+    try {
+      await auth().createUserWithEmailAndPassword(
+        selectedEmail,
+        selectedPassword
+      );
+      alert("Student Registration Successful");
+      router.push("/login");
+    } catch (e: any) {
+      const error = e as FirebaseError;
+      alert("Registration Failed: " + error.message);
+      setLoading(false);
+    }
+  };
 
   const departmentData = useMemo(
     () => [
@@ -148,14 +170,14 @@ const MyScreen = () => {
         label: "Mr.",
         value: "Mr.",
         color: "#fff",
-        size: 18
+        size: 18,
       },
       {
         id: "3",
         label: "Ms.",
         value: "Ms.",
         color: "#fff",
-        size: 18
+        size: 18,
       },
     ],
     []
@@ -173,9 +195,7 @@ const MyScreen = () => {
           contentContainerStyle={styles.scrollViewContent}
         >
           <View style={[styles.inputBox, { marginTop: 10, marginBottom: -10 }]}>
-            <Text style={styles.label}>
-              Prefix
-            </Text>
+            <Text style={styles.label}>Prefix</Text>
             <RadioGroup
               radioButtons={radioButtons}
               onPress={(id) => setSelectedPrefix(id)}
@@ -188,23 +208,49 @@ const MyScreen = () => {
             <Text style={styles.label}>
               First Name <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="First Name" />
+            <TextInput
+              style={styles.input}
+              placeholder="First Name"
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>Middle Name</Text>
-            <TextInput style={styles.input} placeholder="Middle Name" />
+            <TextInput
+              style={styles.input}
+              placeholder="Middle Name"
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
               Last Name <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="Last Name" />
+            <TextInput
+              style={styles.input}
+              placeholder="Last Name"
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
               School Email <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="School Email" />
+            <TextInput
+              style={styles.input}
+              placeholder="School Email"
+              value={selectedEmail}
+              onChangeText={(text) => setSelectedEmail(text)}
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
@@ -230,8 +276,11 @@ const MyScreen = () => {
               Year <Text style={styles.asterik}>*</Text>
             </Text>
             <Dropdown
-              data={selectedLevel === 'Postgraduate' ? 
-                yearDataGrad : yearDataUnderGrad}
+              data={
+                selectedLevel === "Postgraduate"
+                  ? yearDataGrad
+                  : yearDataUnderGrad
+              }
               showsVerticalScrollIndicator={false}
               placeholderStyle={styles.dropdownPlaceholder}
               containerStyle={styles.dropdownContainer}
@@ -268,7 +317,13 @@ const MyScreen = () => {
             <Text style={styles.label}>
               Class ID <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="Class ID" />
+            <TextInput
+              style={styles.input}
+              placeholder="Class ID"
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
@@ -278,7 +333,12 @@ const MyScreen = () => {
               <TextInput
                 style={styles.inputPassword}
                 placeholder="Password"
+                value={selectedPassword}
                 secureTextEntry={!passwordVisible}
+                onChangeText={(text) => setSelectedPassword(text)}
+                autoCorrect={false}
+                autoComplete="off"
+                autoCapitalize="none"
               />
               <TouchableOpacity
                 style={styles.showHideButton}
@@ -298,7 +358,12 @@ const MyScreen = () => {
               <TextInput
                 style={styles.inputPassword}
                 placeholder="Confirm Password"
+                value={selectedConfirmPassword}
                 secureTextEntry={!confirmPasswordVisible}
+                onChangeText={(text) => setSelectedConfirmPassword(text)}
+                autoCorrect={false}
+                autoComplete="off"
+                autoCapitalize="none"
               />
               <TouchableOpacity
                 style={styles.showHideButton}
@@ -314,10 +379,17 @@ const MyScreen = () => {
           </View>
         </ScrollView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => router.push('/login')}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.5}
+            onPress={() => signup()}
+          >
             <Text style={styles.buttonText}>Sign-Up</Text>
           </TouchableOpacity>
-          <Link href='/signup'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
+          <Link href="/signup">
+            <AntDesign name={"arrowleft"} size={18} color={"#fff"} />{" "}
+            <Text style={styles.footerText}>Go Back</Text>
+          </Link>
         </View>
       </View>
       <StatusBar style="dark" />
@@ -343,7 +415,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     height: "10%",
-    marginTop: -20
+    marginTop: -20,
   },
   headerText: {
     color: "#1e90FF",
@@ -367,7 +439,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     shadowColor: "#000",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 3, height: 5},
+    shadowOffset: { width: 3, height: 5 },
     shadowRadius: 3,
     elevation: 5,
     alignItems: "center",

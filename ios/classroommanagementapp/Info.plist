@@ -28,7 +28,13 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>myapp</string>
-          <string>com.egurukul.app</string>
+          <string>com.egurukul.firebase</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.644867117654-h5dapd1ntocdcnbqvc2v4hh9cgaqoo10</string>
         </array>
       </dict>
     </array>

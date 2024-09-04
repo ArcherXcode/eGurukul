@@ -14,12 +14,17 @@ import { createUserWithEmailAndPassword } from "@react-native-firebase/auth";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
+import { FirebaseError } from "@firebase/util";
+import auth from "@react-native-firebase/auth";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const MyScreen = () => {
   const [selectedPrefix, setSelectedPrefix] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,6 +36,7 @@ const MyScreen = () => {
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
   const [selectedCoordinateYear, setSelectedCoordinateYear] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(
@@ -169,6 +175,22 @@ const MyScreen = () => {
     []
   );
 
+  const signup = async () => {
+    setLoading(true);
+    try {
+      await auth().createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      alert("Coordinator Registration Successful");
+      router.push('/login');
+    } catch (e: any) {
+      const error = e as FirebaseError;
+      alert("Registration Failed: " + error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -196,7 +218,13 @@ const MyScreen = () => {
             <Text style={styles.label}>
               First Name <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="First Name" />
+            <TextInput 
+            style={styles.input} 
+            placeholder="First Name" 
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="off"
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>Middle Name</Text>
@@ -206,13 +234,20 @@ const MyScreen = () => {
             <Text style={styles.label}>
               Last Name <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="Last Name" />
+            <TextInput style={styles.input} placeholder="Last Name" autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="off" />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
               Email <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="Work Email" />
+            <TextInput style={styles.input} placeholder="Work Email" autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="off" 
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
@@ -280,6 +315,11 @@ const MyScreen = () => {
                 style={styles.inputPassword}
                 placeholder="Password"
                 secureTextEntry={!passwordVisible}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="off"
               />
               <TouchableOpacity
                 style={styles.showHideButton}
@@ -300,6 +340,11 @@ const MyScreen = () => {
                 style={styles.inputPassword}
                 placeholder="Confirm Password"
                 secureTextEntry={!confirmPasswordVisible}
+                value={confirmPassword}
+                onChangeText={(text) => setConfirmPassword(text)}
+                autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="off"
               />
               <TouchableOpacity
                 style={styles.showHideButton}
@@ -315,7 +360,7 @@ const MyScreen = () => {
           </View>
         </ScrollView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => router.push('/login')}>
+          <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => signup()}>
             <Text style={styles.buttonText}>Sign-Up</Text>
           </TouchableOpacity>
           <Link href='/(teacher)/teacherSignup'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>

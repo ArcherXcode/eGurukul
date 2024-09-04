@@ -1,4 +1,4 @@
-package com.egurukul.app
+package com.egurukul.firebase
 
 import android.os.Build
 import android.os.Bundle
