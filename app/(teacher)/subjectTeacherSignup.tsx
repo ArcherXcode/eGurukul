@@ -194,6 +194,7 @@ const MyScreen = () => {
             <Dropdown
               data={levelData}
               showsVerticalScrollIndicator={false}
+              placeholderStyle={styles.dropdownPlaceholder}
               containerStyle={styles.dropdownContainer}
               itemContainerStyle={styles.dropdownItem}
               placeholder="Select Level"
@@ -212,6 +213,7 @@ const MyScreen = () => {
             <Dropdown
               data={departmentData}
               showsVerticalScrollIndicator={false}
+              placeholderStyle={styles.dropdownPlaceholder}
               containerStyle={styles.dropdownContainer}
               itemContainerStyle={styles.dropdownItem}
               style={styles.dropdown}
@@ -316,16 +318,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "95%",
     height: "65%",
-    // flexGrow: 1,
     backgroundColor: "#1e90FF",
     borderRadius: 20,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 3, height: 5},
+    shadowRadius: 3,
     elevation: 5,
     alignItems: "center",
     justifyContent: "flex-start",
@@ -333,7 +331,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   scrollViewContent: {
-    paddingBottom: 50, // Add padding at the bottom to prevent cutting off content
+    paddingBottom: 20, // Add padding at the bottom to prevent cutting off content
   },
   inputBox: {
     width: windowWidth - 80,
@@ -390,6 +388,9 @@ const styles = StyleSheet.create({
   dropdownItem: {
     borderRadius: 10,
   },
+  dropdownPlaceholder: {
+    color: "#ccc",
+  },
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -421,8 +422,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
-    paddingTop: 10,
+    marginBottom: 15,
+    paddingTop: 20,
   },
   button: {
     width: "40%",

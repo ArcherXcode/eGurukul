@@ -30,6 +30,7 @@ const MyScreen = () => {
   const fullText = "eGurukul";
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
+  const [selectedCoordinateYear, setSelectedCoordinateYear] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(
@@ -142,6 +143,32 @@ const MyScreen = () => {
     []
   );
 
+  const coordinateYear = useMemo(
+    () => [
+      {
+        id: 1,
+        label: "1st Year",
+        value: "1st Year",
+      },
+      {
+        id: 2,
+        label: "2nd Year",
+        value: "2nd Year",
+      },
+      {
+        id: 3,
+        label: "3rd Year",
+        value: "3rd Year",
+      },
+      {
+        id: 4,
+        label: "4th Year",
+        value: "4th Year",
+      },
+    ],
+    []
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -195,6 +222,7 @@ const MyScreen = () => {
               data={levelData}
               showsVerticalScrollIndicator={false}
               containerStyle={styles.dropdownContainer}
+              placeholderStyle={styles.dropdownPlaceholder}
               itemContainerStyle={styles.dropdownItem}
               placeholder="Select Level"
               style={styles.dropdown}
@@ -213,6 +241,7 @@ const MyScreen = () => {
               data={departmentData}
               showsVerticalScrollIndicator={false}
               containerStyle={styles.dropdownContainer}
+              placeholderStyle={styles.dropdownPlaceholder}
               itemContainerStyle={styles.dropdownItem}
               style={styles.dropdown}
               placeholder="Select Department"
@@ -220,6 +249,25 @@ const MyScreen = () => {
               labelField={"label"}
               valueField={"value"}
               onChange={(item) => setSelectedDepartment(item.value)}
+              activeColor="#cfe0fc"
+            />
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
+              Coordination Year <Text style={styles.asterik}>*</Text>
+            </Text>
+            <Dropdown
+              data={coordinateYear}
+              showsVerticalScrollIndicator={false}
+              placeholderStyle={styles.dropdownPlaceholder}
+              containerStyle={styles.dropdownContainer}
+              itemContainerStyle={styles.dropdownItem}
+              style={styles.dropdown}
+              placeholder="Select Coordination Year"
+              value={selectedCoordinateYear}
+              labelField={"label"}
+              valueField={"value"}
+              onChange={(item) => setSelectedCoordinateYear(item.value)}
               activeColor="#cfe0fc"
             />
           </View>
@@ -316,16 +364,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "95%",
     height: "65%",
-    // flexGrow: 1,
     backgroundColor: "#1e90FF",
     borderRadius: 20,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 3, height: 5},
+    shadowRadius: 3,
     elevation: 5,
     alignItems: "center",
     justifyContent: "flex-start",
@@ -333,7 +377,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   scrollViewContent: {
-    paddingBottom: 50, // Add padding at the bottom to prevent cutting off content
+    paddingBottom: 20, // Add padding at the bottom to prevent cutting off content
   },
   inputBox: {
     width: windowWidth - 80,
@@ -390,6 +434,9 @@ const styles = StyleSheet.create({
   dropdownItem: {
     borderRadius: 10,
   },
+  dropdownPlaceholder: {
+    color: "#ccc",
+  },
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -421,8 +468,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
-    paddingTop: 10,
+    marginBottom: 15,
+    paddingTop: 20,
   },
   button: {
     width: "40%",

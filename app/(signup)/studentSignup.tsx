@@ -20,7 +20,6 @@ const windowHeight = Dimensions.get("window").height;
 
 const MyScreen = () => {
   const [selectedPrefix, setSelectedPrefix] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -30,6 +29,8 @@ const MyScreen = () => {
   const fullText = "eGurukul";
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedLevel, setSelectedLevel] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(
@@ -60,7 +61,7 @@ const MyScreen = () => {
     () => [
       {
         id: 1,
-        label: "Computer Science",
+        label: "Computer Science & Engineering",
         value: "Computer Science",
       },
       {
@@ -82,27 +83,59 @@ const MyScreen = () => {
     []
   );
 
-  const levelData = useMemo(
+  const yearDataUnderGrad = useMemo(
     () => [
       {
         id: 1,
-        label: "Lecturer",
-        value: "Lecturer",
+        label: "1st Year",
+        value: "1st Year",
       },
       {
         id: 2,
-        label: "Assistant Professor",
-        value: "Assistant Professor",
+        label: "2nd Year",
+        value: "2nd Year",
       },
       {
         id: 3,
-        label: "Associate Professor",
-        value: "Associate Professor",
+        label: "3rd Year",
+        value: "3rd Year",
       },
       {
         id: 4,
-        label: "Professor",
-        value: "Professor",
+        label: "4th Year",
+        value: "4th Year",
+      },
+    ],
+    []
+  );
+
+  const yearDataGrad = useMemo(
+    () => [
+      {
+        id: 1,
+        label: "1st Year",
+        value: "1st Year",
+      },
+      {
+        id: 2,
+        label: "2nd Year",
+        value: "2nd Year",
+      },
+    ],
+    []
+  );
+
+  const streamData = useMemo(
+    () => [
+      {
+        id: 1,
+        label: "Undergraduate",
+        value: "Undergraduate",
+      },
+      {
+        id: 2,
+        label: "Postgraduate",
+        value: "Postgraduate",
       },
     ],
     []
@@ -141,7 +174,7 @@ const MyScreen = () => {
         >
           <View style={[styles.inputBox, { marginTop: 10, marginBottom: -10 }]}>
             <Text style={styles.label}>
-              Prefix <Text style={styles.asterik}>*</Text>
+              Prefix
             </Text>
             <RadioGroup
               radioButtons={radioButtons}
@@ -169,17 +202,18 @@ const MyScreen = () => {
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
-              Email <Text style={styles.asterik}>*</Text>
+              School Email <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="Work Email" />
+            <TextInput style={styles.input} placeholder="School Email" />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
-              Level <Text style={styles.asterik}>*</Text>
+              Level of Study <Text style={styles.asterik}>*</Text>
             </Text>
             <Dropdown
-              data={levelData}
+              data={streamData}
               showsVerticalScrollIndicator={false}
+              placeholderStyle={styles.dropdownPlaceholder}
               containerStyle={styles.dropdownContainer}
               itemContainerStyle={styles.dropdownItem}
               placeholder="Select Level"
@@ -193,10 +227,31 @@ const MyScreen = () => {
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
+              Year <Text style={styles.asterik}>*</Text>
+            </Text>
+            <Dropdown
+              data={selectedLevel === 'Postgraduate' ? 
+                yearDataGrad : yearDataUnderGrad}
+              showsVerticalScrollIndicator={false}
+              placeholderStyle={styles.dropdownPlaceholder}
+              containerStyle={styles.dropdownContainer}
+              itemContainerStyle={styles.dropdownItem}
+              placeholder="Select Year"
+              style={styles.dropdown}
+              value={selectedYear}
+              labelField={"label"}
+              valueField={"value"}
+              onChange={(item) => setSelectedYear(item.value)}
+              activeColor="#cfe0fc"
+            />
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
               Department <Text style={styles.asterik}>*</Text>
             </Text>
             <Dropdown
               data={departmentData}
+              placeholderStyle={styles.dropdownPlaceholder}
               showsVerticalScrollIndicator={false}
               containerStyle={styles.dropdownContainer}
               itemContainerStyle={styles.dropdownItem}
@@ -208,6 +263,12 @@ const MyScreen = () => {
               onChange={(item) => setSelectedDepartment(item.value)}
               activeColor="#cfe0fc"
             />
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
+              Class ID <Text style={styles.asterik}>*</Text>
+            </Text>
+            <TextInput style={styles.input} placeholder="Class ID" />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
@@ -302,16 +363,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "95%",
     height: "65%",
-    // flexGrow: 1,
     backgroundColor: "#1e90FF",
     borderRadius: 20,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 3, height: 5},
+    shadowRadius: 3,
     elevation: 5,
     alignItems: "center",
     justifyContent: "flex-start",
@@ -319,7 +376,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   scrollViewContent: {
-    paddingBottom: 50, // Add padding at the bottom to prevent cutting off content
+    paddingBottom: 20, // Add padding at the bottom to prevent cutting off content
   },
   inputBox: {
     width: windowWidth - 80,
@@ -376,6 +433,9 @@ const styles = StyleSheet.create({
   dropdownItem: {
     borderRadius: 10,
   },
+  dropdownPlaceholder: {
+    color: "#ccc",
+  },
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -407,8 +467,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
-    paddingTop: 10,
+    marginBottom: 15,
+    paddingTop: 20,
   },
   button: {
     width: "40%",

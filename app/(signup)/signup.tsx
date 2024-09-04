@@ -51,7 +51,7 @@ const MyScreen = () => {
                 </View>
                 <View style={[styles.input, {paddingBottom: 10}]}>
                     <TouchableOpacity style={styles.buttonBox} onPress={() => router.push('/(teacher)/teacherSignup')} activeOpacity={0.5}>
-                        <Text style={styles.buttonText}>I am a Teacher</Text>
+                        <Text style={styles.buttonText}>I am a Faculty</Text>
                     </TouchableOpacity>
                 </View>
                 <Link href='/login'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
