@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
     color: "#1e90FF",
     fontSize: 14,
     marginRight: 0,
+    textAlign: 'right',
   },
 });
 
