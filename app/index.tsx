@@ -1,58 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { useRouter, useSegments } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { UIActivityIndicator } from 'react-native-indicators';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image, Alert } from "react-native";
+import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { PacmanIndicator } from "react-native-indicators";
+import { useAuth } from "../hooks/useAuth";
 
 const MyScreen = () => {
-    const [loading, setLoading] = useState(true);
-
-    const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>() 
+  const { user } = useAuth();
   const router = useRouter();
-  const segments = useSegments();
-  
-  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
-    console.log('onAuthStateChanged', user);
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
-
-  useEffect(() => {
-    if (initializing) return;
     if (user) {
-      router.replace('/(tabs)/home');
+      setLoading(false);
+      setTimeout(() => {
+        router.replace("/(tabs)/home");
+        Alert.alert("Welcome Back!", "Session Resumed.");
+      }, 100); 
     } else {
-      router.replace('/(authentication)/login');
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     }
+  }, [user]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/(authentication)/login");
+    }
+  }, [loading, user]);
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.headerText}>eGurukul</Text>
+          <Text style={styles.loginCheck}>Checking For Login Session</Text>
+          <View style={styles.loadingIcon}>
+            <PacmanIndicator size={50} color="#1e90FF" />
+          </View>
+        </View>
+        <StatusBar style="dark" />
+      </View>
+    );
   }
-  , [initializing, user]);
+
+  return null;
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    splashImage: {
-        width: 200,  // Adjust the width as needed
-        height: 200, // Adjust the height as needed
-        marginBottom: 20, // Add some space below the image if necessary
-    },
-    text: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop: 10,
-        color: '#1e90FF',
-    },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  loadingContainer: {
+    height: "100%",
+    backgroundColor: "#fff",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  loadingIcon: {
+    marginTop: 20,
+    height: 50,
+    width: 50,
+  },
+  loginCheck: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#000",
+  },
+  headerText: {
+    color: "#1e90FF",
+    fontSize: 56,
+    fontWeight: "bold",
+  },
 });
 
 export default MyScreen;

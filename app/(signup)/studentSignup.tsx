@@ -10,17 +10,21 @@ import {
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { createUserWithEmailAndPassword } from "@react-native-firebase/auth";
-import auth from "@react-native-firebase/auth";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
-import { FirebaseError } from "@firebase/util";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { FIREBASE_APP, FIRESTORE_DB } from "../../firebaseConfig";
+import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const MyScreen = () => {
+  const [classID, setClassID] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [selectedPrefix, setSelectedPrefix] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
@@ -37,6 +41,7 @@ const MyScreen = () => {
   const deletingSpeed = 200; // milliseconds
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("");
+  const [selectedSchool, setSelectedSchool] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(
@@ -66,15 +71,33 @@ const MyScreen = () => {
   const signup = async () => {
     setLoading(true);
     try {
-      await auth().createUserWithEmailAndPassword(
-        selectedEmail,
-        selectedPassword
-      );
-      alert("Student Registration Successful");
-      router.push("/login");
+      const auth = getAuth();
+      const db = getFirestore(FIREBASE_APP);
+      
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, selectedEmail, selectedPassword);
+      const user = userCredential.user;
+      const data = {
+        prefix: selectedPrefix,
+        firstName: firstName,
+        middleName: middleName,
+        lastName: lastName,
+        email: selectedEmail,
+        department: selectedDepartment,
+        year: selectedYear,
+        level: selectedLevel,
+        school: selectedSchool,
+        classId: classID,
+      };
+      if (user){
+      const userRef = doc(collection(db, 'users'), user.uid);
+      await setDoc(userRef, data);
+      setLoading(false);
+      alert("Registration Successful");
+      router.push("/home");
+      }
     } catch (e: any) {
-      const error = e as FirebaseError;
-      alert("Registration Failed: " + error.message);
+      alert("Registration Failed: " + e.message);
       setLoading(false);
     }
   };
@@ -84,7 +107,7 @@ const MyScreen = () => {
       {
         id: 1,
         label: "Computer Science & Engineering",
-        value: "Computer Science",
+        value: "Computer Science & Engineering",
       },
       {
         id: 2,
@@ -100,6 +123,32 @@ const MyScreen = () => {
         id: 4,
         label: "Civil Engineering",
         value: "Civil Engineering",
+      },
+    ],
+    []
+  );
+
+  const schoolName = useMemo(
+    () => [
+      {
+        id: 1,
+        label: "Sharda University",
+        value: "Sharda University",
+      },
+      {
+        id: 2,
+        label: "Amity University",
+        value: "Amity University",
+      },
+      {
+        id: 3,
+        label: "Chandiagrh University",
+        value: "Chandigarh University",
+      },
+      {
+        id: 4,
+        label: "Lovely Professional University",
+        value: "Lovely Professional University",
       },
     ],
     []
@@ -198,7 +247,7 @@ const MyScreen = () => {
             <Text style={styles.label}>Prefix</Text>
             <RadioGroup
               radioButtons={radioButtons}
-              onPress={(id) => setSelectedPrefix(id)}
+              onPress={(value) => setSelectedPrefix(value)}
               selectedId={selectedPrefix}
               containerStyle={styles.radioContainer}
               labelStyle={styles.radioLabel}
@@ -213,7 +262,9 @@ const MyScreen = () => {
               placeholder="First Name"
               autoCorrect={false}
               autoComplete="off"
+              value={firstName}
               autoCapitalize="none"
+              onChangeText={(text) => setFirstName(text)}
             />
           </View>
           <View style={styles.inputBox}>
@@ -224,6 +275,8 @@ const MyScreen = () => {
               autoCorrect={false}
               autoComplete="off"
               autoCapitalize="none"
+              value={middleName}
+              onChangeText={(text) => setMiddleName(text)}
             />
           </View>
           <View style={styles.inputBox}>
@@ -236,6 +289,8 @@ const MyScreen = () => {
               autoCorrect={false}
               autoComplete="off"
               autoCapitalize="none"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
             />
           </View>
           <View style={styles.inputBox}>
@@ -250,6 +305,25 @@ const MyScreen = () => {
               autoCorrect={false}
               autoComplete="off"
               autoCapitalize="none"
+            />
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
+              School <Text style={styles.asterik}>*</Text>
+            </Text>
+            <Dropdown
+              data={schoolName}
+              showsVerticalScrollIndicator={false}
+              placeholderStyle={styles.dropdownPlaceholder}
+              containerStyle={styles.dropdownContainer}
+              itemContainerStyle={styles.dropdownItem}
+              placeholder="Select School"
+              style={styles.dropdown}
+              value={selectedSchool}
+              labelField={"label"}
+              valueField={"value"}
+              onChange={(item) => setSelectedSchool(item.value)}
+              activeColor="#cfe0fc"
             />
           </View>
           <View style={styles.inputBox}>
@@ -323,6 +397,8 @@ const MyScreen = () => {
               autoCorrect={false}
               autoComplete="off"
               autoCapitalize="none"
+              value={classID}
+              onChangeText={(text) => setClassID(text)}
             />
           </View>
           <View style={styles.inputBox}>

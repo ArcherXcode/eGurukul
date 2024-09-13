@@ -8,9 +8,7 @@ import {
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { signInWithEmailAndPassword} from "@react-native-firebase/auth";
-import auth from "@react-native-firebase/auth";
-import { FirebaseError } from "@firebase/util";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const MyScreen = () => {
   const [loading, setLoading] = useState(false);
@@ -23,6 +21,7 @@ const MyScreen = () => {
   const fullText = "eGurukul";
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
+  const auth = getAuth();
 
   useEffect(() => {
     const timer = setTimeout(
@@ -52,13 +51,16 @@ const MyScreen = () => {
   const login = async () => {
     setLoading(true);
     try {
-      await auth().signInWithEmailAndPassword(email, password);
-      router.replace("/home");
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      if (user) {
+        setLoading(false);
+        alert("Login Successful");
+        router.push("/home");
+      }
     } catch (e: any) {
-      const error = e as FirebaseError;
-      alert("Registration Failed: " + error.message);
+      alert("Registration Failed: " + e);
       setLoading(false);
-    }
+    } 
   }
 
   const handleSignupPress = () => {

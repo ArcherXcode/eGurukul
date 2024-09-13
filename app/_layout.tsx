@@ -1,14 +1,9 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { LogBox } from 'react-native';
-import { useState } from 'react';
-import {useRouter, useSegments} from 'expo-router';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications

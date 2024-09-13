@@ -10,17 +10,22 @@ import {
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { createUserWithEmailAndPassword } from "@react-native-firebase/auth";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
-import { FirebaseError } from "@firebase/util";
-import auth from "@react-native-firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import { FIREBASE_APP } from "@/firebaseConfig";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const MyScreen = () => {
+  const [classID, setClassID] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [selectedSchool, setSelectedSchool] = useState("");
   const [selectedPrefix, setSelectedPrefix] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -63,12 +68,38 @@ const MyScreen = () => {
     return () => clearTimeout(timer);
   }, [index, isTyping]);
 
+  const schoolName = useMemo(
+    () => [
+      {
+        id: 1,
+        label: "Sharda University",
+        value: "Sharda University",
+      },
+      {
+        id: 2,
+        label: "Amity University",
+        value: "Amity University",
+      },
+      {
+        id: 3,
+        label: "Chandiagrh University",
+        value: "Chandigarh University",
+      },
+      {
+        id: 4,
+        label: "Lovely Professional University",
+        value: "Lovely Professional University",
+      },
+    ],
+    []
+  );
+
   const departmentData = useMemo(
     () => [
       {
         id: 1,
-        label: "Computer Science",
-        value: "Computer Science",
+        label: "Computer Science & Engineering",
+        value: "Computer Science & Engineering",
       },
       {
         id: 2,
@@ -178,15 +209,34 @@ const MyScreen = () => {
   const signup = async () => {
     setLoading(true);
     try {
-      await auth().createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      alert("Coordinator Registration Successful");
-      router.push('/login');
+      const auth = getAuth();
+      const db = getFirestore(FIREBASE_APP);
+      
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const data = {
+        prefix: selectedPrefix,
+        firstName: firstName,
+        middleName: middleName,
+        lastName: lastName,
+        email: email,
+        school: selectedSchool,
+        level: selectedLevel,
+        department: selectedDepartment,
+        coordinateYear: selectedCoordinateYear,
+        classId: classID,
+        role: "coordinator",
+      };
+      if (user){
+      const userRef = doc(collection(db, 'users'), user.uid);
+      await setDoc(userRef, data);
+      setLoading(false);
+      alert("Registration Successful");
+      router.push("/home");
+      }
     } catch (e: any) {
-      const error = e as FirebaseError;
-      alert("Registration Failed: " + error.message);
+      alert("Registration Failed: " + e.message);
       setLoading(false);
     }
   };
@@ -208,7 +258,7 @@ const MyScreen = () => {
             </Text>
             <RadioGroup
               radioButtons={radioButtons}
-              onPress={(id) => setSelectedPrefix(id)}
+              onPress={(value) => setSelectedPrefix(value)}
               selectedId={selectedPrefix}
               containerStyle={styles.radioContainer}
               labelStyle={styles.radioLabel}
@@ -224,19 +274,35 @@ const MyScreen = () => {
             autoCapitalize="none"
             autoCorrect={false}
             autoComplete="off"
+            value={firstName}
+            onChangeText={(text) => setFirstName(text)}
             />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>Middle Name</Text>
-            <TextInput style={styles.input} placeholder="Middle Name" />
+            <TextInput 
+            style={styles.input} 
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="off"
+            placeholder="Middle Name"
+            value={middleName}
+            onChangeText={(text) => setMiddleName(text)}
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
               Last Name <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput style={styles.input} placeholder="Last Name" autoCapitalize="none"
+            <TextInput 
+            style={styles.input} 
+            placeholder="Last Name" 
+            autoCapitalize="none"
             autoCorrect={false}
-            autoComplete="off" />
+            autoComplete="off" 
+            value={lastName}
+            onChangeText={(text) => setLastName(text)}
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
@@ -247,6 +313,25 @@ const MyScreen = () => {
             autoComplete="off" 
             value={email}
             onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
+              School Name <Text style={styles.asterik}>*</Text>
+            </Text>
+            <Dropdown
+              data={schoolName}
+              showsVerticalScrollIndicator={false}
+              containerStyle={styles.dropdownContainer}
+              placeholderStyle={styles.dropdownPlaceholder}
+              itemContainerStyle={styles.dropdownItem}
+              placeholder="Select Level"
+              style={styles.dropdown}
+              value={selectedSchool}
+              labelField={"label"}
+              valueField={"value"}
+              onChange={(item) => setSelectedSchool(item.value)}
+              activeColor="#cfe0fc"
             />
           </View>
           <View style={styles.inputBox}>
@@ -304,6 +389,20 @@ const MyScreen = () => {
               valueField={"value"}
               onChange={(item) => setSelectedCoordinateYear(item.value)}
               activeColor="#cfe0fc"
+            />
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
+              Class ID <Text style={styles.asterik}>*</Text>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Class ID"
+              autoCorrect={false}
+              autoComplete="off"
+              autoCapitalize="none"
+              value={classID}
+              onChangeText={(text) => setClassID(text)}
             />
           </View>
           <View style={styles.inputBox}>
