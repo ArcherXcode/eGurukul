@@ -41,6 +41,14 @@ const MyScreen = () => {
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
   const [loading, setLoading] = useState(false);
+  const [emailPrefix, setEmailPrefix] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("");
+
+  interface DropdownValues {
+    id: number;
+    label: string;
+    value: string;
+  }
 
   useEffect(() => {
     const timer = setTimeout(
@@ -67,27 +75,101 @@ const MyScreen = () => {
     return () => clearTimeout(timer);
   }, [index, isTyping]);
 
+  useEffect(() => {
+    if (emailPrefix && selectedDomain) {
+      setEmail(`${emailPrefix}${selectedDomain}`);
+    }
+  }, [emailPrefix, selectedDomain]);
+
   const schoolName = useMemo(
     () => [
       {
         id: 1,
         label: "Sharda University",
         value: "Sharda University",
+        email: [
+          {
+            id: 1,
+            label: "Default",
+            value: "@sharda.ac.in",
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.sharda.ac.in",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   value: "@pg.sharda.ac.in",
+          // },
+        ],
       },
       {
         id: 2,
         label: "Amity University",
         value: "Amity University",
+        email: [
+          {
+            id: 1,
+            label: "Default",
+            value: "@amity.edu",
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.amity.edu",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   value: "@pg.amity.edu",
+          // },
+        ],
       },
       {
         id: 3,
-        label: "Chandiagrh University",
+        label: "Chandigarh University",
         value: "Chandigarh University",
+        email: [
+          {
+            label: "Default",
+            value: "@cuchd.ac.in",
+            id: 1,
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.cuchd.ac.in",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   value: "@pg.cuchd.ac.in",
+          // },
+        ],
       },
       {
         id: 4,
         label: "Lovely Professional University",
         value: "Lovely Professional University",
+        email: [
+          {
+            id: 1,
+            label: "Default",
+            value: "@lpu.ac.in",
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.lpu.ac.in",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   email: "@pg.lpu.ac.in",
+          // },
+        ],
       },
     ],
     []
@@ -148,32 +230,32 @@ const MyScreen = () => {
   const radioButtons = useMemo(
     () => [
       {
-        id: "1",
+        id: "Mr.",
         label: "Mr.",
         value: "Mr.",
         color: "#fff",
-        size: 18
+        size: 18,
       },
       {
-        id: "2",
+        id: "Mrs.",
         label: "Mrs.",
         value: "Mrs.",
         color: "#fff",
-        size: 18
+        size: 18,
       },
       {
-        id: "3",
+        id: "Ms.",
         label: "Ms.",
         value: "Ms.",
         color: "#fff",
-        size: 18
+        size: 18,
       },
       {
-        id: "4",
+        id: "Dr.",
         label: "Dr.",
         value: "Dr.",
         color: "#fff",
-        size: 18
+        size: 18,
       },
     ],
     []
@@ -184,9 +266,13 @@ const MyScreen = () => {
     try {
       const auth = getAuth();
       const db = getFirestore(FIREBASE_APP);
-      
+
       // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
       const data = {
         prefix: selectedPrefix,
@@ -200,12 +286,12 @@ const MyScreen = () => {
         classId: classID,
         role: "teacher",
       };
-      if (user){
-      const userRef = doc(collection(db, 'users'), user.uid);
-      await setDoc(userRef, data);
-      setLoading(false);
-      alert("Registration Successful");
-      router.push("/home");
+      if (user) {
+        const userRef = doc(collection(db, "users"), user.uid);
+        await setDoc(userRef, data);
+        setLoading(false);
+        alert("Registration Successful");
+        router.push("/home");
       }
     } catch (e: any) {
       alert("Registration Failed: " + e.message);
@@ -224,7 +310,7 @@ const MyScreen = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewContent}
         >
-           <View style={[styles.inputBox, { marginTop: 10, marginBottom: -10 }]}>
+          <View style={[styles.inputBox, { marginTop: 10, marginBottom: -10 }]}>
             <Text style={styles.label}>
               Prefix <Text style={styles.asterik}>*</Text>
             </Text>
@@ -240,51 +326,40 @@ const MyScreen = () => {
             <Text style={styles.label}>
               First Name <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput 
-            style={styles.input} 
-            placeholder="First Name" 
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="off"
-            value={firstName}
-            onChangeText={(text) => setFirstName(text)}
+            <TextInput
+              style={styles.input}
+              placeholder="First Name"
+              autoCapitalize="none"
+              autoCorrect={false}
+              autoComplete="off"
+              value={firstName}
+              onChangeText={(text) => setFirstName(text)}
             />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>Middle Name</Text>
-            <TextInput 
-            style={styles.input} 
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="off"
-            placeholder="Middle Name"
-            value={middleName}
-            onChangeText={(text) => setMiddleName(text)}
+            <TextInput
+              style={styles.input}
+              autoCapitalize="none"
+              autoCorrect={false}
+              autoComplete="off"
+              placeholder="Middle Name"
+              value={middleName}
+              onChangeText={(text) => setMiddleName(text)}
             />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
               Last Name <Text style={styles.asterik}>*</Text>
             </Text>
-            <TextInput 
-            style={styles.input} 
-            placeholder="Last Name" 
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="off" 
-            value={lastName}
-            onChangeText={(text) => setLastName(text)}
-            />
-          </View>
-          <View style={styles.inputBox}>
-            <Text style={styles.label}>
-              Email <Text style={styles.asterik}>*</Text>
-            </Text>
-            <TextInput style={styles.input} placeholder="Work Email" autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="off" 
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+            <TextInput
+              style={styles.input}
+              placeholder="Last Name"
+              autoCapitalize="none"
+              autoCorrect={false}
+              autoComplete="off"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
             />
           </View>
           <View style={styles.inputBox}>
@@ -360,6 +435,82 @@ const MyScreen = () => {
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
+              School Email <Text style={styles.asterik}>*</Text>
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <TextInput
+                style={[
+                  styles.input,
+                  {
+                    flex: 0.55, // Adjusted flex to ensure both elements fit on the same line
+                    fontSize: 13,
+                    borderTopLeftRadius: 8,
+                    borderBottomLeftRadius: 8,
+                    borderBottomRightRadius:
+                      selectedSchool && selectedSchool !== "" ? 0 : 8,
+                    borderTopRightRadius:
+                      selectedSchool && selectedSchool !== "" ? 0 : 8,
+                  },
+                ]}
+                placeholder="Email Prefix"
+                editable={!!selectedSchool}
+                value={emailPrefix}
+                onChangeText={(text) => setEmailPrefix(text)}
+                autoCorrect={false}
+                autoComplete="off"
+                autoCapitalize="none"
+              />
+              {selectedSchool && selectedSchool !== "" && (
+                <Dropdown
+                  data={
+                    schoolName
+                      .find((item) => item.value === selectedSchool)
+                      ?.email.map((item) => ({
+                        id: item.id,
+                        label: item.label,
+                        value: item.value,
+                      })) as DropdownValues[]
+                  }
+                  showsVerticalScrollIndicator={false}
+                  placeholderStyle={styles.dropdownPlaceholder}
+                  selectedTextStyle={{ fontSize: 14 }}
+                  containerStyle={[styles.dropdownContainer, { marginLeft: 1 }]}
+                  itemContainerStyle={[
+                    styles.dropdownItem,
+                    { marginHorizontal: -10 },
+                  ]}
+                  itemTextStyle={{ fontSize: 14 }}
+                  placeholder="Email Postfix"
+                  style={[
+                    styles.dropdown,
+                    {
+                      flex: 0.45, // Adjusted flex to fit within the same line
+                      marginLeft: 0,
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 8,
+                      borderTopRightRadius: 8,
+                    },
+                  ]}
+                  labelField={"value"}
+                  valueField={"value"}
+                  value={selectedDomain}
+                  onChange={(item: DropdownValues) =>
+                    setSelectedDomain(item.value)
+                  }
+                  activeColor="#cfe0fc"
+                />
+              )}
+            </View>
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
               Password <Text style={styles.asterik}>*</Text>
             </Text>
             <View style={styles.passwordContainer}>
@@ -370,8 +521,8 @@ const MyScreen = () => {
                 value={password}
                 onChangeText={(text) => setPassword(text)}
                 autoCapitalize="none"
-            autoComplete="off"
-            autoCorrect={false}
+                autoComplete="off"
+                autoCorrect={false}
               />
               <TouchableOpacity
                 style={styles.showHideButton}
@@ -395,8 +546,8 @@ const MyScreen = () => {
                 value={confirmPassword}
                 onChangeText={(text) => setConfirmPassword(text)}
                 autoCapitalize="none"
-            autoComplete="off"
-            autoCorrect={false}
+                autoComplete="off"
+                autoCorrect={false}
               />
               <TouchableOpacity
                 style={styles.showHideButton}
@@ -412,10 +563,17 @@ const MyScreen = () => {
           </View>
         </ScrollView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={() => signup()}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.5}
+            onPress={() => signup()}
+          >
             <Text style={styles.buttonText}>Sign-Up</Text>
           </TouchableOpacity>
-          <Link href='/(teacher)/teacherSignup'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
+          <Link href="/(teacher)/teacherSignup">
+            <AntDesign name={"arrowleft"} size={18} color={"#fff"} />{" "}
+            <Text style={styles.footerText}>Go Back</Text>
+          </Link>
         </View>
       </View>
       <StatusBar style="dark" />
@@ -441,7 +599,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     height: "10%",
-    marginTop: -20
+    marginTop: -20,
   },
   headerText: {
     color: "#1e90FF",
@@ -465,7 +623,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     shadowColor: "#000",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 3, height: 5},
+    shadowOffset: { width: 3, height: 5 },
     shadowRadius: 3,
     elevation: 5,
     alignItems: "center",

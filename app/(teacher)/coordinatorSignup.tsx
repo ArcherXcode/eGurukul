@@ -42,6 +42,14 @@ const MyScreen = () => {
   const deletingSpeed = 200; // milliseconds
   const [selectedCoordinateYear, setSelectedCoordinateYear] = useState("");
   const [loading, setLoading] = useState(false);
+  const [emailPrefix, setEmailPrefix] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("");
+
+  interface DropdownValues {
+    id: number;
+    label: string;
+    value: string;
+  }
 
   useEffect(() => {
     const timer = setTimeout(
@@ -68,27 +76,101 @@ const MyScreen = () => {
     return () => clearTimeout(timer);
   }, [index, isTyping]);
 
+  useEffect(() => {
+    if (emailPrefix && selectedDomain) {
+      setEmail(`${emailPrefix}${selectedDomain}`);
+    }
+  }, [emailPrefix, selectedDomain]);
+
   const schoolName = useMemo(
     () => [
       {
         id: 1,
         label: "Sharda University",
         value: "Sharda University",
+        email: [
+          {
+            id: 1,
+            label: "Default",
+            value: "@sharda.ac.in",
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.sharda.ac.in",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   value: "@pg.sharda.ac.in",
+          // },
+        ],
       },
       {
         id: 2,
         label: "Amity University",
         value: "Amity University",
+        email: [
+          {
+            id: 1,
+            label: "Default",
+            value: "@amity.edu",
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.amity.edu",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   value: "@pg.amity.edu",
+          // },
+        ],
       },
       {
         id: 3,
-        label: "Chandiagrh University",
+        label: "Chandigarh University",
         value: "Chandigarh University",
+        email: [
+          {
+            label: "Default",
+            value: "@cuchd.ac.in",
+            id: 1,
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.cuchd.ac.in",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   value: "@pg.cuchd.ac.in",
+          // },
+        ],
       },
       {
         id: 4,
         label: "Lovely Professional University",
         value: "Lovely Professional University",
+        email: [
+          {
+            id: 1,
+            label: "Default",
+            value: "@lpu.ac.in",
+          },
+          // {
+          //   id: 2,
+          //   label: "Undergraduate",
+          //   value: "@ug.lpu.ac.in",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Postgraduate",
+          //   email: "@pg.lpu.ac.in",
+          // },
+        ],
       },
     ],
     []
@@ -149,28 +231,28 @@ const MyScreen = () => {
   const radioButtons = useMemo(
     () => [
       {
-        id: "1",
+        id: "Mr.",
         label: "Mr.",
         value: "Mr.",
         color: "#fff",
         size: 18
       },
       {
-        id: "2",
+        id: "Mrs.",
         label: "Mrs.",
         value: "Mrs.",
         color: "#fff",
         size: 18
       },
       {
-        id: "3",
+        id: "Ms.",
         label: "Ms.",
         value: "Ms.",
         color: "#fff",
         size: 18
       },
       {
-        id: "4",
+        id: "Dr.",
         label: "Dr.",
         value: "Dr.",
         color: "#fff",
@@ -306,17 +388,6 @@ const MyScreen = () => {
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>
-              Email <Text style={styles.asterik}>*</Text>
-            </Text>
-            <TextInput style={styles.input} placeholder="Work Email" autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="off" 
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            />
-          </View>
-          <View style={styles.inputBox}>
-            <Text style={styles.label}>
               School Name <Text style={styles.asterik}>*</Text>
             </Text>
             <Dropdown
@@ -404,6 +475,82 @@ const MyScreen = () => {
               value={classID}
               onChangeText={(text) => setClassID(text)}
             />
+          </View>
+          <View style={styles.inputBox}>
+            <Text style={styles.label}>
+              School Email <Text style={styles.asterik}>*</Text>
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <TextInput
+                style={[
+                  styles.input,
+                  {
+                    flex: 0.55, // Adjusted flex to ensure both elements fit on the same line
+                    fontSize: 13,
+                    borderTopLeftRadius: 8,
+                    borderBottomLeftRadius: 8,
+                    borderBottomRightRadius:
+                      selectedSchool && selectedSchool !== "" ? 0 : 8,
+                    borderTopRightRadius:
+                      selectedSchool && selectedSchool !== "" ? 0 : 8,
+                  },
+                ]}
+                placeholder="Email Prefix"
+                editable={!!selectedSchool}
+                value={emailPrefix}
+                onChangeText={(text) => setEmailPrefix(text)}
+                autoCorrect={false}
+                autoComplete="off"
+                autoCapitalize="none"
+              />
+              {selectedSchool && selectedSchool !== "" && (
+                <Dropdown
+                  data={
+                    schoolName
+                      .find((item) => item.value === selectedSchool)
+                      ?.email.map((item) => ({
+                        id: item.id,
+                        label: item.label,
+                        value: item.value,
+                      })) as DropdownValues[]
+                  }
+                  showsVerticalScrollIndicator={false}
+                  placeholderStyle={styles.dropdownPlaceholder}
+                  selectedTextStyle={{ fontSize: 14 }}
+                  containerStyle={[styles.dropdownContainer, { marginLeft: 1 }]}
+                  itemContainerStyle={[
+                    styles.dropdownItem,
+                    { marginHorizontal: -10 },
+                  ]}
+                  itemTextStyle={{ fontSize: 14 }}
+                  placeholder="Email Postfix"
+                  style={[
+                    styles.dropdown,
+                    {
+                      flex: 0.45, // Adjusted flex to fit within the same line
+                      marginLeft: 0,
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 8,
+                      borderTopRightRadius: 8,
+                    },
+                  ]}
+                  labelField={"value"}
+                  valueField={"value"}
+                  value={selectedDomain}
+                  onChange={(item: DropdownValues) =>
+                    setSelectedDomain(item.value)
+                  }
+                  activeColor="#cfe0fc"
+                />
+              )}
+            </View>
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.label}>

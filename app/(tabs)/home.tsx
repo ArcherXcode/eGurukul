@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { getAuth } from 'firebase/auth';
 import { getDoc, getFirestore, collection, doc } from 'firebase/firestore';
 import { FIREBASE_APP } from '@/firebaseConfig';
+import { useNavigation } from '@react-navigation/native';
 
 const MyScreen = () => {
     // const [data, setData] = useState({});
     const [userName, setUserName] = useState('');
+    const navigation = useNavigation();
 
     useEffect(() => {
         const getData = async () => {
@@ -20,7 +22,7 @@ const MyScreen = () => {
                 const docSnap = await getDoc(docD);
                 if (docSnap.exists()) {
                     // setData(docSnap.data());
-                    setUserName(docSnap.data().firstName);
+                    setUserName(`${docSnap.data().firstName} ${docSnap.data().lastName}`);
                     console.log('Document data:', docSnap.data());
                 } else {
                     console.log('No such document!');
@@ -34,9 +36,21 @@ const MyScreen = () => {
 }
     , []);
 
+    useLayoutEffect(() => {
+        if (userName) {
+            navigation.setOptions({
+                headerTitle: userName,
+            });
+        }
+    }, [navigation, userName]);
+
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Welcome Back! {userName}</Text>
+            <View style={styles.headerCard}>
+            <Text style={styles.text}>Welcome Back! </Text>
+            <Text style={styles.textUser}>{userName}</Text>
+            </View>
             <StatusBar style="light" />
         </View>
     );
@@ -48,12 +62,24 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#fff',
-        padding: 20,
+        paddingHorizontal: 10,
+    },
+    headerCard: {
+        backgroundColor: '#f0f0f0',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        borderRadius: 10,
+        marginTop: 5,
+        // marginLeft: 5,
+        width: '100%',
+        marginBottom: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     text: {
         fontSize: 18,
         fontWeight: '400',
-        marginBottom: 10,
     },
     textUser: {
         fontSize: 16,
