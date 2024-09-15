@@ -7,13 +7,14 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
+  Alert,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth";
 import { FIREBASE_APP, FIRESTORE_DB } from "../../firebaseConfig";
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
 
@@ -95,12 +96,14 @@ const MyScreen = () => {
         level: selectedLevel,
         school: selectedSchool,
         classId: classID,
+        role: "Student",
       };
       if (user) {
+        await sendEmailVerification(user);
         const userRef = doc(collection(db, "users"), user.uid);
         await setDoc(userRef, data);
         setLoading(false);
-        alert("Registration Successful");
+        Alert.alert("Registration Successful", "Please verify your email to login");
         router.push("/home");
       }
     } catch (e: any) {
@@ -493,10 +496,8 @@ const MyScreen = () => {
                     fontSize: 13,
                     borderTopLeftRadius: 8,
                     borderBottomLeftRadius: 8,
-                    borderBottomRightRadius:
-                      selectedSchool && selectedSchool !== "" ? 0 : 8,
-                    borderTopRightRadius:
-                      selectedSchool && selectedSchool !== "" ? 0 : 8,
+                    borderBottomRightRadius: 0,
+                    borderTopRightRadius: 0,
                   },
                 ]}
                 placeholder="Email Prefix"
@@ -507,16 +508,23 @@ const MyScreen = () => {
                 autoComplete="off"
                 autoCapitalize="none"
               />
-              {selectedSchool && selectedSchool !== "" && (
                 <Dropdown
                   data={
+                    selectedSchool ? 
                     schoolName
                       .find((item) => item.value === selectedSchool)
                       ?.email.map((item) => ({
                         id: item.id,
                         label: item.label,
                         value: item.value,
-                      })) as DropdownValues[]
+                      })) as DropdownValues[] :
+                      [
+                        {
+                          id: 1,
+                          label: "Select School",
+                          value: "",
+                        },
+                      ]
                   }
                   showsVerticalScrollIndicator={false}
                   placeholderStyle={styles.dropdownPlaceholder}
@@ -547,7 +555,6 @@ const MyScreen = () => {
                   }
                   activeColor="#cfe0fc"
                 />
-              )}
             </View>
           </View>
           <View style={styles.inputBox}>

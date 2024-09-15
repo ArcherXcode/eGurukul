@@ -1,10 +1,7 @@
 import React from 'react';
-import {Link, Stack, Tabs} from 'expo-router';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Stack } from 'expo-router';
 
 const App = () => {
-
     return (
         <Stack
         initialRouteName='login'
@@ -14,7 +11,6 @@ const App = () => {
         >
             <Stack.Screen name="login" options={{ headerShown: false }} />
             <Stack.Screen name="resetPassword" options={{ headerShown: false }} />
-            <Stack.Screen name="createPassword" options={{ headerShown: false }} />
         </Stack>
     );
 };

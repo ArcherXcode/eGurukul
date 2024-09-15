@@ -1,49 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, sendEmailVerification, signOut } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { FIREBASE_APP } from '@/firebaseConfig';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+// Define the type for user data
+interface UserData {
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
+    role?: string;
+    email?: string;
+    school?: string;
+    year?: string;
+    department?: string;
+    classId?: string;
+}
 
 const MyScreen = () => {
     const auth = getAuth();
-    const [data, setData] = useState({});
+    const [data, setData] = useState<UserData>({});
+    const [verified, setVerified] = useState(false);
+    const [verificationSent, setVerificationSent] = useState(false);
 
     const handleLogout = async () => {
-        try {
-            await auth.signOut();
-            router.replace('/(authentication)/login');
-        } catch (error) {
+        await signOut(auth).then(() => {
+            Alert.alert('Success', 'Logged out successfully');
+            router.push('/login');
+        }).catch((error) => {
             console.log('Error signing out:', error);
+        });
+    };
+
+    const handleResendVerification = async () => {
+        try {
+            const user = auth.currentUser;
+            if (user) {
+                await sendEmailVerification(user);
+                Alert.alert('Success', 'Verification email sent successfully');
+                setVerificationSent(true);
+            }
+        } catch (error) {
+            console.log('Error sending verification email:', error);
         }
     };
 
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const db = getFirestore(FIREBASE_APP);
-                const user = auth.currentUser;
-                if (!user) return;
+        const db = getFirestore(FIREBASE_APP);
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
                 const docRef = doc(db, 'users', user.uid);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    setData(docSnap.data());
-                    console.log('Document data:', docSnap.data());
+                    setData(docSnap.data() as UserData);
+                    setVerified(user.emailVerified);
+                    console.log('User Verified:', user.emailVerified);
                 } else {
                     console.log('No such document!');
                 }
-            } catch (error) {
-                console.log('Error getting data:', error);
             }
-        };
-        getData();
-    }, []);
+        });
 
-    // Define the desired key order
-    const orderedKeys = ['firstName', 'middleName', 'lastName', 'email', 'school', 'year', 'department', 'classId'];
+        return unsubscribe;
+    }, [auth]);
 
-    // Render each key-value pair dynamically based on the desired order
+    const orderedKeys: Array<keyof UserData> = ['firstName', 'middleName', 'lastName', 'role', 'email', 'school', 'year', 'department', 'classId'];
+
     const renderDataFields = () => {
         return orderedKeys.map((key) => {
             if (data[key]) {
@@ -53,17 +78,47 @@ const MyScreen = () => {
                             <Text style={styles.textLabel}>{formatLabel(key)}</Text>
                         </View>
                         <View style={styles.value}>
-                            <Text style={styles.textValue}>{data[key]}</Text> 
+                            {key === 'email' ? (
+                                <View style={styles.emailContainer}>
+                                    <Text style={styles.textValue}>{data[key]}</Text>
+                                    <View style={styles.verificationContainer}>
+                                        {verified ? (
+                                            <TouchableOpacity
+                                                activeOpacity={1}
+                                                style={[styles.verificationButton, {
+                                                    backgroundColor: 'green',
+                                                    opacity: 1
+                                                }]} 
+                                            >
+                                                <MaterialCommunityIcons name={'email-check-outline'} size={16} color={'#fff'} />
+                                            </TouchableOpacity>
+                                        ) : (
+                                            <View style={styles.verificationWrapper}>
+                                                <TouchableOpacity
+                                                    activeOpacity={0.5}
+                                                    style={[styles.verificationButton, {
+                                                        backgroundColor: 'red'
+                                                    }]}
+                                                    onPress={handleResendVerification}
+                                                >
+                                                    <MaterialCommunityIcons name={'email-alert-outline'} size={16} color={'#fff'} />
+                                                </TouchableOpacity>
+                                            </View>
+                                        )}
+                                    </View>
+                                </View>
+                            ) : (
+                                <Text style={styles.textValue}>{data[key]}</Text>
+                            )}
                         </View>
                     </View>
                 );
             }
-            return null; // Avoid rendering if data[key] doesn't exist
+            return null;
         });
     };
 
-    // Helper function to format labels (capitalize and add spaces)
-    const formatLabel = (key) => {
+    const formatLabel = (key: keyof UserData) => {
         const label = key.replace(/([A-Z])/g, ' $1');
         return label.charAt(0).toUpperCase() + label.slice(1);
     };
@@ -106,6 +161,21 @@ const styles = StyleSheet.create({
         paddingVertical: 6,
         width: '100%',
     },
+    emailContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    verificationContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 10,
+    },
+    verificationWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     textLabel: {
         fontSize: 16,
         fontWeight: '600',
@@ -114,6 +184,32 @@ const styles = StyleSheet.create({
     textValue: {
         fontSize: 16,
         marginBottom: 5,
+    },
+    verifiedText: {
+        color: 'green',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    unverifiedText: {
+        color: 'red',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginRight: 10,
+    },
+    verificationSentText: {
+        color: '#ffa500',
+        fontSize: 14,
+        marginLeft: 10,
+    },
+    resendButton: {
+        backgroundColor: '#0000ff',
+        padding: 5,
+        borderRadius: 5,
+        marginLeft: 10,
+    },
+    resendText: {
+        color: '#fff',
+        fontSize: 12,
     },
     buttonContainer: {
         width: '100%',
@@ -130,6 +226,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    verificationButton: {
+        padding: 8,
+        borderRadius: 5,
+        opacity: 0.5,
+        marginTop: -15
+    }
 });
 
 export default MyScreen;

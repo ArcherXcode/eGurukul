@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { AntDesign } from "@expo/vector-icons";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const MyScreen = () => {
   const [displayedText, setDisplayedText] = useState("");
@@ -14,6 +15,7 @@ const MyScreen = () => {
   const typingSpeed = 200; // milliseconds
   const deletingSpeed = 200; // milliseconds
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(
@@ -40,6 +42,16 @@ const MyScreen = () => {
     return () => clearTimeout(timer);
   }, [index, isTyping]);
 
+  const handleResetPassword = async() => {
+    const auth = getAuth();
+    await sendPasswordResetEmail(auth, email).then(() => {
+      alert("Password reset email sent successfully");
+      router.push("/login");
+    }).catch((error) => {
+      alert(error.message);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -54,22 +66,24 @@ const MyScreen = () => {
           <TextInput
             style={styles.inputBoxEmail}
             placeholder="Your School Email ID"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
           />
-          <TouchableOpacity style={styles.otpButton} activeOpacity={0.5}>
+          {/* <TouchableOpacity style={styles.otpButton} activeOpacity={0.5}>
                 <MaterialCommunityIcons name="email-check-outline" size={24} color="#1e90FF" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             </View>
         </View>
-        <View style={styles.input}>
+        {/* <View style={styles.input}>
           <Text style={styles.inputLabel}>OTP</Text>
           <TextInput
             style={styles.inputBoxCode}
             placeholder="Enter the OTP"
           />
-        </View>
+        </View> */}
         <View style={styles.button}>
-          <TouchableOpacity style={styles.buttonBox} activeOpacity={0.5} onPress={() => router.push('/createPassword')}>
-            <Text style={styles.buttonText}>Verify OTP</Text>
+          <TouchableOpacity style={styles.buttonBox} activeOpacity={0.5} onPress={() => {handleResetPassword()}}>
+            <Text style={styles.buttonText}>Send Email</Text>
           </TouchableOpacity>
         </View>
         <Link href='/login'><AntDesign name={'arrowleft'} size={18} color={'#fff'}/> <Text style={styles.footerText}>Go Back</Text></Link>
@@ -151,7 +165,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   inputBoxEmail: {
-    width: "80%",
+    width: "100%",
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,
@@ -176,7 +190,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonBox: {
-    width: "45%",
+    width: "40%",
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,

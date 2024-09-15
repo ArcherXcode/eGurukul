@@ -7,13 +7,14 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
+  Alert,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { FIREBASE_APP } from "@/firebaseConfig";
 
@@ -284,13 +285,14 @@ const MyScreen = () => {
         level: selectedLevel,
         department: selectedDepartment,
         classId: classID,
-        role: "teacher",
+        role: "Lecturer",
       };
       if (user) {
+        await sendEmailVerification(user);
         const userRef = doc(collection(db, "users"), user.uid);
         await setDoc(userRef, data);
         setLoading(false);
-        alert("Registration Successful");
+        Alert.alert("Registration Successful", "Please verify your email to login");
         router.push("/home");
       }
     } catch (e: any) {
