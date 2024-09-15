@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, Alert, Modal, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { getAuth, onAuthStateChanged, sendEmailVerification, signOut } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { FIREBASE_APP } from '@/firebaseConfig';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BarIndicator, PacmanIndicator, PulseIndicator, SkypeIndicator, UIActivityIndicator, WaveIndicator } from 'react-native-indicators';
 
 // Define the type for user data
 interface UserData {
@@ -25,6 +26,7 @@ const MyScreen = () => {
     const [data, setData] = useState<UserData>({});
     const [verified, setVerified] = useState(false);
     const [verificationSent, setVerificationSent] = useState(false);
+    const [loading, setLoading] = useState(true); // Add loading state
 
     const handleLogout = async () => {
         await signOut(auth).then(() => {
@@ -53,13 +55,17 @@ const MyScreen = () => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setData(docSnap.data() as UserData);
-                    setVerified(user.emailVerified);
-                    console.log('User Verified:', user.emailVerified);
-                } else {
-                    console.log('No such document!');
+                try {
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        setData(docSnap.data() as UserData);
+                        setVerified(user.emailVerified);
+                        console.log('User Verified:', user.emailVerified);
+                    } else {
+                        console.log('No such document!');
+                    }
+                } finally {
+                    setLoading(false); // Hide loading indicator after data is fetched
                 }
             }
         });
@@ -125,15 +131,30 @@ const MyScreen = () => {
 
     return (
         <View style={styles.container}>
-            {renderDataFields()}
-            <View style={[styles.item, { marginTop: 30, justifyContent: 'center', alignItems: 'center' }]}>
-                <Pressable onPress={handleLogout} style={styles.buttonContainer}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonLabel}>Log Out</Text>
+            {loading ? (
+                <Modal transparent={true} visible={loading} animationType="none">
+                    <View style={styles.loadingContainer}>
+                        <View style={{ marginBottom: 20, backgroundColor: 'white', padding: 20, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}>
+                        <Text style={{ marginBottom: 20, fontSize: 16, fontWeight: '600' }}>Loading Profile</Text>
+                        <View style={{ marginBottom: 20, backgroundColor: '#fff', height: 20, width: 50 }}>
+                        <UIActivityIndicator color="#1e90FF" size={40}/>
+                        </View>
+                        </View>
                     </View>
-                </Pressable>
-            </View>
-            <StatusBar style="light" />
+                </Modal>
+            ) : (
+                <>
+                    {renderDataFields()}
+                    <View style={[styles.item, { marginTop: 30, justifyContent: 'center', alignItems: 'center' }]}>
+                        <Pressable onPress={handleLogout} style={styles.buttonContainer}>
+                            <View style={styles.button}>
+                                <Text style={styles.buttonLabel}>Log Out</Text>
+                            </View>
+                        </Pressable>
+                    </View>
+                    <StatusBar style="light" />
+                </>
+            )}
         </View>
     );
 };
@@ -231,7 +252,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         opacity: 0.5,
         marginTop: -15
-    }
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
 });
 
 export default MyScreen;

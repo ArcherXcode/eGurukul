@@ -5,10 +5,14 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Modal,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { UIActivityIndicator } from "react-native-indicators";
 
 const MyScreen = () => {
   const [loading, setLoading] = useState(false);
@@ -49,19 +53,27 @@ const MyScreen = () => {
   }, [index, isTyping]);
 
   const login = async () => {
-    setLoading(true);
+    setLoading(true); // Show the loading indicator
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       if (user) {
-        setLoading(false);
-        alert("Login Successful");
-        router.push("/home");
+        setLoading(false); // Hide the loading indicator
+        Alert.alert(
+          "Success",
+          "Logged in successfully",
+          [
+            {
+              text: "OK",
+              onPress: () => router.push("/home"),
+            },
+          ],
+        );
       }
     } catch (e: any) {
-      alert("Registration Failed: " + e);
-      setLoading(false);
-    } 
-  }
+      alert("Login Failed: " + e);
+      setLoading(false); // Hide the loading indicator
+    }
+  };
 
   const handleSignupPress = () => {
     router.push("/signup");
@@ -131,6 +143,17 @@ const MyScreen = () => {
         </Link>
       </View>
       <StatusBar style="dark" />
+      {/* Loading Indicator Modal */}
+      <Modal transparent={true} visible={loading} animationType="none">
+                    <View style={styles.loadingContainer}>
+                        <View style={{ marginBottom: 20, backgroundColor: 'white', padding: 20, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}>
+                        <Text style={{ marginBottom: 20, fontSize: 16, fontWeight: '600' }}>Logging In...</Text>
+                        <View style={{ marginBottom: 20, backgroundColor: '#fff', height: 20, width: 50 }}>
+                        <UIActivityIndicator color="#1e90FF" size={40}/>
+                        </View>
+                        </View>
+                    </View>
+                </Modal>
     </View>
   );
 };
@@ -143,10 +166,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#cfe0fc",
     width: "100%",
   },
-  text: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   header: {
     width: "100%",
     justifyContent: "center",
@@ -154,13 +173,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     top: "20%",
     height: "10%",
-  },
-  subHeader: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    top: "25%",
   },
   headerText: {
     color: "#1e90FF",
@@ -259,6 +271,23 @@ const styles = StyleSheet.create({
     marginRight: 0,
     textAlign: 'right',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  loadingText: {
+    color: "#fff",
+    marginTop: 10,
+    fontSize: 18,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+},
 });
 
 export default MyScreen;

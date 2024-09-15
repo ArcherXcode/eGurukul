@@ -8,15 +8,21 @@ import {
   ScrollView,
   Dimensions,
   Alert,
+  Modal,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  sendEmailVerification,
+} from "firebase/auth";
 import { FIREBASE_APP, FIRESTORE_DB } from "../../firebaseConfig";
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
+import { UIActivityIndicator } from "react-native-indicators";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -103,8 +109,12 @@ const MyScreen = () => {
         const userRef = doc(collection(db, "users"), user.uid);
         await setDoc(userRef, data);
         setLoading(false);
-        Alert.alert("Registration Successful", "Please verify your email to login");
-        router.push("/home");
+        Alert.alert("Success", "Signed up successfully. Please verify the Email.", [
+          {
+            text: "OK",
+            onPress: () => router.push("/home"),
+          },
+        ]);
       }
     } catch (e: any) {
       alert("Registration Failed: " + e.message);
@@ -508,53 +518,53 @@ const MyScreen = () => {
                 autoComplete="off"
                 autoCapitalize="none"
               />
-                <Dropdown
-                  data={
-                    selectedSchool ? 
-                    schoolName
-                      .find((item) => item.value === selectedSchool)
-                      ?.email.map((item) => ({
-                        id: item.id,
-                        label: item.label,
-                        value: item.value,
-                      })) as DropdownValues[] :
-                      [
+              <Dropdown
+                data={
+                  selectedSchool
+                    ? (schoolName
+                        .find((item) => item.value === selectedSchool)
+                        ?.email.map((item) => ({
+                          id: item.id,
+                          label: item.label,
+                          value: item.value,
+                        })) as DropdownValues[])
+                    : [
                         {
                           id: 1,
                           label: "Select School",
                           value: "",
                         },
                       ]
-                  }
-                  showsVerticalScrollIndicator={false}
-                  placeholderStyle={styles.dropdownPlaceholder}
-                  selectedTextStyle={{ fontSize: 14 }}
-                  containerStyle={[styles.dropdownContainer, { marginLeft: 1 }]}
-                  itemContainerStyle={[
-                    styles.dropdownItem,
-                    { marginHorizontal: -10 },
-                  ]}
-                  itemTextStyle={{ fontSize: 14 }}
-                  placeholder="Email Postfix"
-                  style={[
-                    styles.dropdown,
-                    {
-                      flex: 0.45, // Adjusted flex to fit within the same line
-                      marginLeft: 0,
-                      borderTopLeftRadius: 0,
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 8,
-                      borderTopRightRadius: 8,
-                    },
-                  ]}
-                  labelField={"value"}
-                  valueField={"value"}
-                  value={selectedDomain}
-                  onChange={(item: DropdownValues) =>
-                    setSelectedDomain(item.value)
-                  }
-                  activeColor="#cfe0fc"
-                />
+                }
+                showsVerticalScrollIndicator={false}
+                placeholderStyle={styles.dropdownPlaceholder}
+                selectedTextStyle={{ fontSize: 14 }}
+                containerStyle={[styles.dropdownContainer, { marginLeft: 1 }]}
+                itemContainerStyle={[
+                  styles.dropdownItem,
+                  { marginHorizontal: -10 },
+                ]}
+                itemTextStyle={{ fontSize: 14 }}
+                placeholder="Email Postfix"
+                style={[
+                  styles.dropdown,
+                  {
+                    flex: 0.45, // Adjusted flex to fit within the same line
+                    marginLeft: 0,
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 8,
+                    borderTopRightRadius: 8,
+                  },
+                ]}
+                labelField={"value"}
+                valueField={"value"}
+                value={selectedDomain}
+                onChange={(item: DropdownValues) =>
+                  setSelectedDomain(item.value)
+                }
+                activeColor="#cfe0fc"
+              />
             </View>
           </View>
           <View style={styles.inputBox}>
@@ -625,6 +635,35 @@ const MyScreen = () => {
         </View>
       </View>
       <StatusBar style="dark" />
+      {/* Loading Indicator Modal */}
+      <Modal transparent={true} visible={loading} animationType="none">
+        <View style={styles.loadingContainer}>
+          <View
+            style={{
+              marginBottom: 20,
+              backgroundColor: "white",
+              padding: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 10,
+            }}
+          >
+            <Text style={{ marginBottom: 20, fontSize: 16, fontWeight: "600" }}>
+              Logging In...
+            </Text>
+            <View
+              style={{
+                marginBottom: 20,
+                backgroundColor: "#fff",
+                height: 20,
+                width: 50,
+              }}
+            >
+              <UIActivityIndicator color="#1e90FF" size={40} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -799,6 +838,12 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 14,
     fontWeight: "500",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });
 
