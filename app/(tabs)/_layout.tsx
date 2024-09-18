@@ -99,7 +99,7 @@ const App = () => {
             <Tabs.Screen name="assignments" options={{tabBarIcon : ({focused}) =>(
                 <FontAwesome5 name='book' size={24} color={focused ? '#000' : '#fff'}/>
             ),
-            title: "Attendance",
+            title: "Assignment",
             headerTitleStyle: {
                 color: 'white',
                 fontSize: 20,

@@ -79,48 +79,77 @@ const MyScreen = () => {
   }, [index, isTyping]);
 
   const signup = async () => {
-    setLoading(true);
-    try {
-      const auth = getAuth();
-      const db = getFirestore(FIREBASE_APP);
+  setLoading(true);
+  try {
+    const auth = getAuth();
+    const db = getFirestore(FIREBASE_APP);
 
-      // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        selectedEmail,
-        selectedPassword
-      );
-      const user = userCredential.user;
-      const data = {
-        prefix: selectedPrefix,
-        firstName: firstName,
-        middleName: middleName,
-        lastName: lastName,
-        email: selectedEmail,
-        department: selectedDepartment,
-        year: selectedYear,
-        level: selectedLevel,
-        school: selectedSchool,
-        classId: classID,
-        role: "Student",
-      };
-      if (user) {
-        await sendEmailVerification(user);
-        const userRef = doc(collection(db, "users"), user.uid);
-        await setDoc(userRef, data);
-        setLoading(false);
-        Alert.alert("Success", "Signed up successfully. Please verify the Email.", [
+    // Create user with email and password
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      selectedEmail,
+      selectedPassword
+    );
+    const user = userCredential.user;
+
+    const data = {
+      prefix: selectedPrefix,
+      firstName: firstName,
+      middleName: middleName,
+      lastName: lastName,
+      email: selectedEmail,
+      department: selectedDepartment,
+      year: selectedYear,
+      level: selectedLevel,
+      school: selectedSchool,
+      classId: classID,
+      role: "Student",
+    };
+
+    if (user) {
+      await sendEmailVerification(user);
+
+      // Create user document
+      const userRef = doc(collection(db, "users"), user.uid);
+      await setDoc(userRef, data);
+
+      // Create sub-collections for the user document
+      const collections = [
+        "Classes",
+        "Attendance",
+        "Assignment",
+        "Subjects",
+        "Result",
+        "Timetable",
+        "Tests",
+        "Exam Routines",
+        "Feedback",
+      ];
+
+      // Add an empty document for each collection
+      for (const collectionName of collections) {
+        const collectionRef = collection(userRef, collectionName);
+        await setDoc(doc(collectionRef), {}); // Empty doc
+      }
+
+      setLoading(false);
+      Alert.alert(
+        "Success",
+        "Signed up successfully. Please verify the Email.",
+        [
           {
             text: "OK",
             onPress: () => router.push("/home"),
           },
-        ]);
-      }
-    } catch (e: any) {
-      alert("Registration Failed: " + e.message);
-      setLoading(false);
+        ]
+      );
     }
-  };
+  } catch (e: any) {
+    alert("Registration Failed: " + e.message);
+    setLoading(false);
+  }
+};
+
 
   interface DropdownValues {
     id: number;

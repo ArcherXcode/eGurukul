@@ -1,9 +1,13 @@
 import React from 'react';
-import {Link, Stack, Tabs} from 'expo-router';
+import {Stack, router} from 'expo-router';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 const App = () => {
+
+    const handleBack = () => {
+        router.back();
+    }
 
     return (
         <Stack
@@ -22,21 +26,21 @@ const App = () => {
             <Stack.Screen name="profile" options={{ 
                 title: 'Account Center',
                 headerLeft: () => (
-                    <Link href="/home" style={{marginTop: 5, left: -10}}>
+                    <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <Entypo name='chevron-left' size={28} color={'#fff'}/>
                         </View>
-                    </Link>
+                    </Pressable>
                 ),
              }} />
             <Stack.Screen name="notifications" options={{ 
                 title: 'Notifications',
                 headerLeft: () => (
-                    <Link href="/home" style={{marginTop: 5, left: -10}}>
+                    <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <Entypo name='chevron-left' size={28} color={'#fff'}/>
                         </View>
-                    </Link>
+                    </Pressable>
                 ),
              }} />
         </Stack>
