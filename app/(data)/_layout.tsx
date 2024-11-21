@@ -1,7 +1,7 @@
 import React from 'react';
 import {Stack, Tabs, router} from 'expo-router';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import {View, Text, StyleSheet, Pressable, Alert} from 'react-native';
+import { Entypo, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 const App = () => {
 
@@ -27,7 +27,9 @@ const App = () => {
             <Stack.Screen name="subjects" options={{ 
                 title: 'Subjects',
                 headerLeft: () => (
-                    <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
+                    <Pressable 
+                    onPress={handleBack} style={{marginTop: 5, left: -10,}}
+                    >
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <Entypo name='chevron-left' size={28} color={'#fff'}/>
                         </View>
@@ -76,16 +78,6 @@ const App = () => {
              }} />
              <Stack.Screen name="fees" options={{ 
                 title: 'Payment Dashboard',
-                headerLeft: () => (
-                    <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
-                        <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
-                        </View>
-                    </Pressable>
-                ),
-             }} />
-             <Stack.Screen name="settings" options={{ 
-                title: 'Settings',
                 headerLeft: () => (
                     <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>

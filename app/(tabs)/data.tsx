@@ -4,6 +4,7 @@ import {
   FontAwesome,
   FontAwesome5,
   Ionicons,
+  MaterialCommunityIcons,
   MaterialIcons,
   SimpleLineIcons,
 } from "@expo/vector-icons";
@@ -29,8 +30,8 @@ const MyScreen = () => {
       router.push("/examRoutines");
     } else if (screen === "feedback") {
       router.push("/feedback");
-    } else if (screen === "settings") {
-      router.push("/settings");
+    } else if (screen === "profile") {
+      router.push("/profile");
     }
   };
 
@@ -200,16 +201,16 @@ const MyScreen = () => {
           </View>
         </Pressable>
         <Pressable style={styles.miniContainer}
-        onPress={() => handleScreens('settings')}
+        onPress={() => handleScreens('profile')}
         >
           <View style={styles.miniFirstRow}>
-          <Entypo
-            name="cog"
-            size={20}
+          <MaterialCommunityIcons
+            name="account"
+            size={28}
             color={"#000"}
-            style={{ marginRight: 10 }}
+            style={{ marginRight: 5, marginLeft: -5 }}
           />
-          <Text style={styles.buttonText}>Settings</Text>
+          <Text style={styles.buttonText}>Account Center</Text>
           </View>
           <View style={styles.miniSecondRow}>
           <SimpleLineIcons
