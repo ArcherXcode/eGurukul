@@ -31,7 +31,7 @@ const MyScreen = () => {
     const handleLogout = async () => {
         await signOut(auth).then(() => {
             Alert.alert('Success', 'Logged out successfully');
-            router.push('/login');
+            router.push('/(authentication)/login');
         }).catch((error) => {
             console.log('Error signing out:', error);
         });
@@ -152,7 +152,7 @@ const MyScreen = () => {
                             </View>
                         </Pressable>
                     </View>
-                    <StatusBar style="light" />
+                    <StatusBar style="dark" />
                 </>
             )}
         </View>
@@ -166,7 +166,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         backgroundColor: '#fff',
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingBottom: 10,
+        paddingTop: 20
     },
     item: {
         flexDirection: 'column',

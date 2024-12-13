@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 // Helper function to generate random assignments
 const generateRandomAssignments = () => {
@@ -75,6 +77,7 @@ const generateRandomAssignments = () => {
   
 
 const Assignments = () => {
+  const { bottom } = useSafeAreaInsets();
   const router = useRouter();
   const assignments = generateRandomAssignments();
 
@@ -87,7 +90,7 @@ const Assignments = () => {
   }
   return (
     <View style={styles.mainContainer}>
-      <ScrollView contentContainerStyle={styles.containerScroller} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={[styles.containerScroller, {paddingBottom: bottom * 3}]} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View style={styles.container}>
           {assignments.map((assignment) => (
             <TouchableOpacity 
@@ -110,9 +113,10 @@ const Assignments = () => {
           ))}
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.fab} onPress={navigateToCreate}>
+      <TouchableOpacity style={[styles.fab, {bottom: bottom * 3}]} onPress={navigateToCreate}>
         <Feather name="plus" size={30} color="#fff" />
       </TouchableOpacity>
+      <StatusBar style="dark" />
     </View>
   );
 };
@@ -162,8 +166,8 @@ const styles = StyleSheet.create({
     bottom: 20, // Position it 20 units from the bottom
     zIndex: 10, // Ensure FAB is above all other elements
     backgroundColor: "#1e90FF", // FAB background color
-    width: 70, // Set the width of the FAB
-    height: 70, // Set the height of the FAB
+    width: 60, // Set the width of the FAB
+    height: 60, // Set the height of the FAB
     borderRadius: 35, // Set the border radius to make it round
     justifyContent: "center", // Center the content horizontally
     alignItems: "center", // Center the content vertically

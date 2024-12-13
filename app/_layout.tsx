@@ -1,4 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -53,7 +54,7 @@ function RootLayoutNav() {
         headerShown: false,
       }}
       >
-        <Stack.Screen name="(authentication)" options={{ headerShown: false }} />
+        <Stack.Screen name="(authentication)/login" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>

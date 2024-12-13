@@ -1,39 +1,14 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, FlatList, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { getAuth } from 'firebase/auth';
-import { getDoc, getFirestore, doc } from 'firebase/firestore';
-import { FIREBASE_APP } from '@/firebaseConfig';
-import { useNavigation } from '@react-navigation/native';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MyScreen = () => {
-    const [userName, setUserName] = useState('');
-    const navigation = useNavigation();
+    const { top, bottom } = useSafeAreaInsets();
     const [schedule, setSchedule] = useState<{ id: string; time: string; subject: string; teacher: string; }[]>([]);
 
-
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const auth = getAuth();
-                const db = getFirestore(FIREBASE_APP);
-                const user = auth.currentUser;
-                if (!user) return;
-                const docD = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docD);
-                if (docSnap.exists()) {
-                    setUserName(`${docSnap.data().firstName} ${docSnap.data().lastName}`);
-                    console.log(user.emailVerified);
-                } else {
-                    console.log('No such document!');
-                }
-            } catch (error) {
-                console.log('Error getting data:', error);
-            }
-        };
-        getData();
-
         // Mock data for today's class schedule
         const todaysSchedule = [
             { id: '1', time: '9:00 AM - 10:30 AM', subject: 'Data Structures', teacher: 'Prof. A Sharma' },
@@ -45,14 +20,6 @@ const MyScreen = () => {
         setSchedule(todaysSchedule);
     }, []);
 
-    useLayoutEffect(() => {
-        if (userName) {
-            navigation.setOptions({
-                headerTitle: userName,
-            });
-        }
-    }, [navigation, userName]);
-
     const renderClassItem = ({ item }: { item: { id: string; time: string; subject: string; teacher: string } }) => (
         <View style={styles.classItem}>
             <Text style={styles.classTime}>{item.time}</Text>
@@ -62,7 +29,7 @@ const MyScreen = () => {
     );
 
     return (
-        <ScrollView contentContainerStyle={styles.container} nestedScrollEnabled={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={[styles.container, {paddingBottom: bottom * 2.5}]} nestedScrollEnabled={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
             <View style={styles.headerCard}>
                 <Text style={styles.textHeaderTitle}>Important Notifications</Text>
                 <View style={styles.newNotification}>
@@ -105,7 +72,8 @@ const MyScreen = () => {
                     </Pressable>
                 </View>
             </View>
-            <StatusBar style="light" />
+
+        <StatusBar style="dark" />
         </ScrollView>
     );
 };
@@ -117,7 +85,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // backgroundColor: '#fff',
         paddingHorizontal: 10,
-        marginBottom: 120,
     },
     headerCard: {
         backgroundColor: 'white',

@@ -78,7 +78,7 @@ const MyScreen = () => {
                     <Text style={styles.footer}>Read more</Text>
                 </View>
             </View>
-            <StatusBar style="light" />
+            <StatusBar style="dark" />
         </View>
         </ScrollView>
     );

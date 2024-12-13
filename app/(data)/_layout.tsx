@@ -11,13 +11,9 @@ const App = () => {
 
     return (
         <Stack
-        initialRouteName='login'
         screenOptions={{
-            headerStyle: {
-                backgroundColor: '#1e90FF',
-            },
             headerTitleStyle: {
-                color: '#fff',
+                color: '#000',
                 fontSize: 20,
                 fontWeight: 'bold',
             },
@@ -31,7 +27,7 @@ const App = () => {
                     onPress={handleBack} style={{marginTop: 5, left: -10,}}
                     >
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
+                        <Entypo name='chevron-left' size={28} color={'#000'}/>
                         </View>
                     </Pressable>
                 ),
@@ -41,7 +37,7 @@ const App = () => {
                 headerLeft: () => (
                     <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
+                        <Entypo name='chevron-left' size={28} color={'#000'}/>
                         </View>
                     </Pressable>
                 ),
@@ -51,7 +47,7 @@ const App = () => {
                 headerLeft: () => (
                     <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
+                        <Entypo name='chevron-left' size={28} color={'#000'}/>
                         </View>
                     </Pressable>
                 ),
@@ -61,7 +57,7 @@ const App = () => {
                 headerLeft: () => (
                     <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
+                        <Entypo name='chevron-left' size={28} color={'#000'}/>
                         </View>
                     </Pressable>
                 ),
@@ -71,7 +67,7 @@ const App = () => {
                 headerLeft: () => (
                     <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
+                        <Entypo name='chevron-left' size={28} color={'#000'}/>
                         </View>
                     </Pressable>
                 ),
@@ -81,7 +77,7 @@ const App = () => {
                 headerLeft: () => (
                     <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
+                        <Entypo name='chevron-left' size={28} color={'#000'}/>
                         </View>
                     </Pressable>
                 ),
@@ -91,7 +87,7 @@ const App = () => {
                 headerLeft: () => (
                     <Pressable onPress={handleBack} style={{marginTop: 5, left: -10,}}>
                         <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Entypo name='chevron-left' size={28} color={'#fff'}/>
+                        <Entypo name='chevron-left' size={28} color={'#000'}/>
                         </View>
                     </Pressable>
                 ),

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Switch } from 'react-native';
 import { courses } from '../classroom/allCourses';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ClassroomScreen = () => {
   // State to manage visibility of past and upcoming classes
   const [showPastClasses, setShowPastClasses] = useState(false);
   const [showUpcomingClasses, setShowUpcomingClasses] = useState(true);
+  const { bottom } = useSafeAreaInsets();
 
   // Filter the courses based on their status
   const ongoingCourse = courses.find((course) => course.status === 'ongoing');
@@ -13,7 +15,7 @@ const ClassroomScreen = () => {
   const upcomingCourses = courses.filter((course) => course.status === 'upcoming');
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, {paddingBottom: bottom * 2.5 }]}>
       {/* Switches for Past and Upcoming Classes at the top */}
       <View style={styles.switchContainer}>
         <View style={styles.switchRow}>
@@ -160,6 +162,7 @@ const styles = StyleSheet.create({
   },
   switchContainer: {
     padding: 10,
+    paddingHorizontal: 15,
     backgroundColor: '#fff',
     borderRadius: 8,
     marginBottom: 10,

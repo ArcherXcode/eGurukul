@@ -204,11 +204,11 @@ const MyScreen = () => {
         onPress={() => handleScreens('profile')}
         >
           <View style={styles.miniFirstRow}>
-          <MaterialCommunityIcons
-            name="account"
-            size={28}
+          <Ionicons
+            name="settings-outline"
+            size={22}
             color={"#000"}
-            style={{ marginRight: 5, marginLeft: -5 }}
+            style={{ marginRight: 8}}
           />
           <Text style={styles.buttonText}>Account Center</Text>
           </View>
@@ -222,7 +222,7 @@ const MyScreen = () => {
           </View>
         </Pressable>
       </View>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
     </View>
   );
 };
