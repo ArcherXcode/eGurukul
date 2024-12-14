@@ -49,6 +49,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
 
   return (
+    <NavigationContainer>
       <Stack
       screenOptions={{
         headerShown: false,
@@ -58,5 +59,6 @@ function RootLayoutNav() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
+    </NavigationContainer>
   );
 }

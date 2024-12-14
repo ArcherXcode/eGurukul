@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { Stack, router } from 'expo-router';
+import { NavigationContainer } from '@react-navigation/native';
 
 const AssignmentLayout = () => {
 
@@ -13,11 +14,8 @@ const AssignmentLayout = () => {
         <Stack
             initialRouteName="details"
             screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#1e90FF',
-                },
                 headerTitleStyle: {
-                    color: '#fff',
+                    color: '#000',
                     fontSize: 20,
                     fontWeight: 'bold',
                 },
@@ -31,7 +29,7 @@ const AssignmentLayout = () => {
                     headerLeft: () => (
                         <Pressable onPress={handleBack} style={{ marginTop: 5, left: -10 }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                <Entypo name='chevron-left' size={28} color={'#fff'} />
+                                <Entypo name='chevron-left' size={28} color={'#000'} />
                             </View>
                         </Pressable>
                     ),
@@ -44,7 +42,7 @@ const AssignmentLayout = () => {
                     headerLeft: () => (
                         <Pressable onPress={handleBack} style={{ marginTop: 5, left: -10 }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                <Entypo name='chevron-left' size={28} color={'#fff'} />
+                                <Entypo name='chevron-left' size={28} color={'#000'} />
                             </View>
                         </Pressable>
                     ),
@@ -57,7 +55,7 @@ const AssignmentLayout = () => {
                     headerLeft: () => (
                         <Pressable onPress={handleBack} style={{ marginTop: 5, left: -10 }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                <Entypo name='chevron-left' size={28} color={'#fff'} />
+                                <Entypo name='chevron-left' size={28} color={'#000'} />
                             </View>
                         </Pressable>
                     ),
@@ -70,7 +68,7 @@ const AssignmentLayout = () => {
                     headerLeft: () => (
                         <Pressable onPress={handleBack} style={{ marginTop: 5, left: -10 }}>
                             <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                <Entypo name='chevron-left' size={28} color={'#fff'} />
+                                <Entypo name='chevron-left' size={28} color={'#000'} />
                             </View>
                         </Pressable>
                     ),
@@ -81,6 +79,11 @@ const AssignmentLayout = () => {
 };
 
 const styles = StyleSheet.create({
+    headerMain: {
+        borderBottomWidth: 0, 
+            elevation: 0, 
+            shadowOpacity: 0, 
+    },
     header: {
         backgroundColor: '#1e90FF',
         padding: 15,

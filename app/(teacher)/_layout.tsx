@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, Stack, Tabs} from 'expo-router';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
 

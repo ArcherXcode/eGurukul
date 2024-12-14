@@ -15,7 +15,7 @@ const MyScreen = () => {
       setLoading(false);
       setTimeout(() => {
         router.replace("/(tabs)/home");
-        Alert.alert("Welcome Back!", "Session Resumed.");
+        // Alert.alert("Welcome Back!", "Session Resumed.");
       }, 100); 
     } else {
       setTimeout(() => {

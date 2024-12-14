@@ -11,6 +11,7 @@ const App = () => {
 
     return (
         <Stack
+        initialRouteName="profile"
         screenOptions={{
             headerTitleStyle: {
                 color: '#000',

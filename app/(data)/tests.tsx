@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Switch } from 'react-native';
 
@@ -72,7 +73,7 @@ const TestAndQuizzesScreen = () => {
           <>
             {pastTests.map((test) => (
               <View key={test.id} style={styles.testCard}>
-                <View style={[styles.pastUpcomingTest, { backgroundColor: '#f7d1d1' }]}>
+                <View style={[styles.pastUpcomingTest]}>
                   <Text style={styles.testTitle}>{test.name}</Text>
                   <Text style={styles.testCode}>{test.code}</Text>
                   <Text style={styles.testDetails}>Teacher: {test.teacher}</Text>
@@ -95,7 +96,7 @@ const TestAndQuizzesScreen = () => {
           <>
             {upcomingTests.map((test) => (
               <View key={test.id} style={styles.testCard}>
-                <View style={[styles.pastUpcomingTest, { backgroundColor: '#d1e7f7' }]}>
+                <View style={[styles.pastUpcomingTest]}>
                   <Text style={styles.testTitle}>{test.name}</Text>
                   <Text style={styles.testCode}>{test.code}</Text>
                   <Text style={styles.testDetails}>Teacher: {test.teacher}</Text>
@@ -110,6 +111,7 @@ const TestAndQuizzesScreen = () => {
           </>
         )}
       </ScrollView>
+      <StatusBar style="dark" />
     </View>
   );
 };
@@ -117,12 +119,13 @@ const TestAndQuizzesScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f0f0f0',
     padding: 0,
   },
   scrollContainer: {
-    paddingBottom: 20,
+    paddingBottom: 10,
     paddingHorizontal: 10,
+    marginTop: 10,
   },
   testCard: {
     backgroundColor: 'white',
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   ongoingTest: {
-    backgroundColor: '#e1f7d5',
+    backgroundColor: '#fff',
     padding: 10,
     borderRadius: 8,
   },
@@ -174,7 +177,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#fff',
     borderRadius: 8,
-    marginBottom: 10,
+    paddingHorizontal: 20,
   },
   switchRow: {
     flexDirection: 'row',

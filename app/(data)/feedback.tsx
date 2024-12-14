@@ -3,15 +3,16 @@ import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert,
 import { Rating } from 'react-native-ratings';
 import * as DocumentPicker from 'expo-document-picker';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 const FeedbackScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
-  const [isBugReport, setIsBugReport] = useState(false); // Switch between Feedback and Bug Report
-  const [isFeedback, setIsFeedback] = useState(true); // Switch between Feedback and Bug Report
-  const [file, setFile] = useState<any>(null); // File data for bug report
-  const [rating, setRating] = useState(0); // Rating for feedback
+  const [isBugReport, setIsBugReport] = useState(false); 
+  const [isFeedback, setIsFeedback] = useState(true); 
+  const [file, setFile] = useState<any>(null); 
+  const [rating, setRating] = useState(0); 
 
   const handleSubmit = () => {
     if (!name || !email || (!description && !isBugReport) || (isBugReport && !file)) {
@@ -22,7 +23,6 @@ const FeedbackScreen = () => {
     const reportType = isBugReport ? 'Bug Report' : 'Feedback';
     Alert.alert('Thank You!', `${reportType} submitted successfully!`);
 
-    // Reset the form
     setName('');
     setEmail('');
     setDescription('');
@@ -138,8 +138,7 @@ const FeedbackScreen = () => {
         </View>
       </View>
       </View>
-
-          {/* Conditional Rendering for Bug Report */}
+      
           {isBugReport && (
             <View style={styles.subInputContainer}>
               <Text style={styles.label}>Upload Document</Text>
@@ -151,7 +150,6 @@ const FeedbackScreen = () => {
             </View>
           )}
 
-          {/* Conditional Rendering for Rating */}
           {isFeedback && (
             <View style={styles.subInputContainer}>
               <Text style={styles.label}>Rating</Text>
@@ -176,6 +174,7 @@ const FeedbackScreen = () => {
             <Text style={styles.buttonText1}>Cancel</Text>
           </TouchableOpacity>
         </View>
+        <StatusBar style="dark" />
     </View>
   );
 };
@@ -183,7 +182,7 @@ const FeedbackScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     padding: 20,
     height: '100%',
   },

@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
@@ -94,6 +95,7 @@ const FeesPaymentScreen = () => {
       <TouchableOpacity style={styles.payButton} onPress={() => alert('Payment Process Initiated')}>
         <Text style={styles.payButtonText}>Pay Now</Text>
       </TouchableOpacity>
+      <StatusBar style="dark" />
     </View>
   );
 };
@@ -101,7 +103,7 @@ const FeesPaymentScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#f0f0f0',
     padding: 10,
   },
   cardContainer: {

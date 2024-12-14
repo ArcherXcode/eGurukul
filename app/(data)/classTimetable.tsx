@@ -101,7 +101,7 @@ const MyScreen = () => {
                 />
             </View>
 
-            <StatusBar style="light" />
+            <StatusBar style="dark" />
         </View>
     );
 };

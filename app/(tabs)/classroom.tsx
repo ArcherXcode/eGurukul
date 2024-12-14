@@ -4,19 +4,16 @@ import { courses } from '../classroom/allCourses';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ClassroomScreen = () => {
-  // State to manage visibility of past and upcoming classes
   const [showPastClasses, setShowPastClasses] = useState(false);
   const [showUpcomingClasses, setShowUpcomingClasses] = useState(true);
   const { bottom } = useSafeAreaInsets();
 
-  // Filter the courses based on their status
   const ongoingCourse = courses.find((course) => course.status === 'ongoing');
   const pastCourses = courses.filter((course) => course.status === 'past');
   const upcomingCourses = courses.filter((course) => course.status === 'upcoming');
 
   return (
-    <View style={[styles.mainContainer, {paddingBottom: bottom * 2.5 }]}>
-      {/* Switches for Past and Upcoming Classes at the top */}
+    <View style={[styles.mainContainer, { paddingBottom: bottom * 2.5 }]}>
       <View style={styles.switchContainer}>
         <View style={styles.switchRow}>
           <View style={styles.switchItem}>
@@ -24,8 +21,8 @@ const ClassroomScreen = () => {
             <Switch
               value={showPastClasses}
               onValueChange={(value) => setShowPastClasses(value)}
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={showPastClasses ? '#f5dd4b' : '#f4f3f4'}
+              trackColor={{ false: '#767577', true: '#d4d4d4' }}
+              thumbColor={showPastClasses ? '#1e90FF' : '#f4f3f4'}
             />
           </View>
           <View style={styles.switchItem}>
@@ -33,67 +30,58 @@ const ClassroomScreen = () => {
             <Switch
               value={showUpcomingClasses}
               onValueChange={(value) => setShowUpcomingClasses(value)}
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              thumbColor={showUpcomingClasses ? '#f5dd4b' : '#f4f3f4'}
+              trackColor={{ false: '#767577', true: '#d4d4d4' }}
+              thumbColor={showUpcomingClasses ? '#1e90FF' : '#f4f3f4'}
             />
           </View>
         </View>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-        {/* Ongoing Class */}
         {ongoingCourse && (
           <View style={styles.courseCard}>
-            <View style={styles.ongoingClass}>
-              <Text style={styles.courseTitle}>{ongoingCourse.name}</Text>
-              <Text style={styles.courseCode}>{ongoingCourse.code}</Text>
-              <Text style={styles.classDetails}>Teacher: {ongoingCourse.teacher}</Text>
-              <Text style={styles.classDetails}>Class Mode: {ongoingCourse.classMode}</Text>
-              <Text style={styles.classDetails}>Timing: {ongoingCourse.timing}</Text>
-              <View style={styles.statusDot}>
-                <View style={[styles.dot, { backgroundColor: 'green' }]} />
-                <Text style={styles.statusText}>Ongoing</Text>
-              </View>
+            <Text style={styles.courseTitle}>{ongoingCourse.name}</Text>
+            <Text style={styles.courseCode}>{ongoingCourse.code}</Text>
+            <Text style={styles.classDetails}>Teacher: {ongoingCourse.teacher}</Text>
+            <Text style={styles.classDetails}>Class Mode: {ongoingCourse.classMode}</Text>
+            <Text style={styles.classDetails}>Timing: {ongoingCourse.timing}</Text>
+            <View style={styles.statusDot}>
+              <View style={[styles.dot, { backgroundColor: '#249624' }]} />
+              <Text style={styles.statusText}>Ongoing</Text>
             </View>
           </View>
         )}
 
-        {/* Past Classes (toggle visibility) */}
         {showPastClasses && pastCourses.length > 0 && (
           <>
             {pastCourses.map((course) => (
               <View key={course.id} style={styles.courseCard}>
-                <View style={[styles.pastUpcomingClass, { backgroundColor: '#f7d1d1' }]}>
-                  <Text style={styles.courseTitle}>{course.name}</Text>
-                  <Text style={styles.courseCode}>{course.code}</Text>
-                  <Text style={styles.classDetails}>Teacher: {course.teacher}</Text>
-                  <Text style={styles.classDetails}>Class Mode: {course.classMode}</Text>
-                  <Text style={styles.classDetails}>Timing: {course.timing}</Text>
-                  <View style={styles.statusDot}>
-                    <View style={[styles.dot, { backgroundColor: 'red' }]} />
-                    <Text style={styles.statusText}>Past</Text>
-                  </View>
+                <Text style={styles.courseTitle}>{course.name}</Text>
+                <Text style={styles.courseCode}>{course.code}</Text>
+                <Text style={styles.classDetails}>Teacher: {course.teacher}</Text>
+                <Text style={styles.classDetails}>Class Mode: {course.classMode}</Text>
+                <Text style={styles.classDetails}>Timing: {course.timing}</Text>
+                <View style={styles.statusDot}>
+                  <View style={[styles.dot, { backgroundColor: '#fc2833' }]} />
+                  <Text style={styles.statusText}>Past</Text>
                 </View>
               </View>
             ))}
           </>
         )}
 
-        {/* Upcoming Classes (toggle visibility) */}
         {showUpcomingClasses && upcomingCourses.length > 0 && (
           <>
             {upcomingCourses.map((course) => (
               <View key={course.id} style={styles.courseCard}>
-                <View style={[styles.pastUpcomingClass, { backgroundColor: '#d1e7f7' }]}>
-                  <Text style={styles.courseTitle}>{course.name}</Text>
-                  <Text style={styles.courseCode}>{course.code}</Text>
-                  <Text style={styles.classDetails}>Teacher: {course.teacher}</Text>
-                  <Text style={styles.classDetails}>Class Mode: {course.classMode}</Text>
-                  <Text style={styles.classDetails}>Timing: {course.timing}</Text>
-                  <View style={styles.statusDot}>
-                    <View style={[styles.dot, { backgroundColor: 'blue' }]} />
-                    <Text style={styles.statusText}>Upcoming</Text>
-                  </View>
+                <Text style={styles.courseTitle}>{course.name}</Text>
+                <Text style={styles.courseCode}>{course.code}</Text>
+                <Text style={styles.classDetails}>Teacher: {course.teacher}</Text>
+                <Text style={styles.classDetails}>Class Mode: {course.classMode}</Text>
+                <Text style={styles.classDetails}>Timing: {course.timing}</Text>
+                <View style={styles.statusDot}>
+                  <View style={[styles.dot, { backgroundColor: '#1e90FF' }]} />
+                  <Text style={styles.statusText}>Upcoming</Text>
                 </View>
               </View>
             ))}
@@ -107,10 +95,11 @@ const ClassroomScreen = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f0f0f0',
     padding: 0,
   },
   scrollContainer: {
+    marginTop: 10,
     paddingBottom: 20,
     paddingHorizontal: 10,
   },
@@ -120,15 +109,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     elevation: 3,
-  },
-  ongoingClass: {
-    backgroundColor: '#e1f7d5',
-    padding: 10,
-    borderRadius: 8,
-  },
-  pastUpcomingClass: {
-    padding: 10,
-    borderRadius: 8,
   },
   courseTitle: {
     fontSize: 18,
@@ -165,7 +145,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: '#fff',
     borderRadius: 8,
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   switchRow: {
     flexDirection: 'row',

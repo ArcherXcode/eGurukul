@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 
@@ -34,6 +35,7 @@ const ResultScreen = () => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       />
+      <StatusBar style="dark" />
     </View>
   );
 };
@@ -41,7 +43,7 @@ const ResultScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#f0f0f0',
     padding: 10,
   },
   title: {

@@ -43,7 +43,7 @@ const ExamRoutineScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#f0f0f0',
     padding: 10,
   },
   title: {

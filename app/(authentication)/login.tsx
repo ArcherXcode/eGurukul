@@ -8,6 +8,7 @@ import {
   Modal,
   ActivityIndicator,
   Alert,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -80,7 +81,7 @@ const MyScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.header}>
         <Text style={styles.headerText}>{displayedText}</Text>
         <Text style={styles.headerSub}>Your Second School</Text>
@@ -154,7 +155,7 @@ const MyScreen = () => {
                         </View>
                     </View>
                 </Modal>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -168,11 +169,10 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "column",
     top: "20%",
-    height: "10%",
   },
   headerText: {
     color: "#1e90FF",
@@ -180,8 +180,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   headerSub: {
-    position: "absolute",
-    top: "90%",
     color: "#000",
     fontSize: 16,
     fontWeight: "300",

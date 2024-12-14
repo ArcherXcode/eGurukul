@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 const App = () => {
     return (
         <Stack
-        initialRouteName='/login'
+        initialRouteName='login'
         screenOptions={{
             headerShown: false,
         }}

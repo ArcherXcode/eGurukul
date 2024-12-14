@@ -57,12 +57,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('subjects')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <Feather
             name="bookmark"
             size={20}
             color={"#000"}
-            style={{ marginRight: 10 }}
           />
+          </View>
           <Text style={styles.buttonText}>Subjects</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -78,12 +79,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('results')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <Entypo
             name="circular-graph"
             size={20}
             color={"#000"}
-            style={{ marginRight: 10 }}
           />
+          </View>
           <Text style={styles.buttonText}>Result</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -99,12 +101,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('classTimetable')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <Entypo
             name="calendar"
             size={20}
             color={"#000"}
-            style={{ marginRight: 10 }}
           />
+          </View>
           <Text style={styles.buttonText}>Class Timetable</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -120,12 +123,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('tests')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <MaterialIcons
             name="list-alt"
             size={20}
             color={"#000"}
-            style={{ marginRight: 10 }}
           />
+          </View>
           <Text style={styles.buttonText}>Tests & Quizzes</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -141,12 +145,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('fees')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <Entypo
             name="credit"
             size={20}
             color={"#000"}
-            style={{ marginRight: 10 }}
           />
+          </View>
           <Text style={styles.buttonText}>Fees</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -162,12 +167,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('examRoutines')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <FontAwesome5
             name="tasks"
             size={20}
             color={"#000"}
-            style={{ marginRight: 10 }}
           />
+          </View>
           <Text style={styles.buttonText}>Exam Routines</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -183,12 +189,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('feedback')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <Ionicons
             name="chatbox-ellipses-outline"
             size={20}
             color={"#000"}
-            style={{ marginRight: 10 }}
           />
+          </View>
           <Text style={styles.buttonText}>Feedback</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -204,12 +211,13 @@ const MyScreen = () => {
         onPress={() => handleScreens('profile')}
         >
           <View style={styles.miniFirstRow}>
+          <View style={styles.iconContainer}>
           <Ionicons
             name="settings-outline"
             size={22}
             color={"#000"}
-            style={{ marginRight: 8}}
           />
+          </View>
           <Text style={styles.buttonText}>Account Center</Text>
           </View>
           <View style={styles.miniSecondRow}>
@@ -233,8 +241,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "#ffffff",
-    // padding: 10,
+    backgroundColor: "#f0f0f0",
     width: "100%",
   },
   wholeContainer: {
@@ -247,15 +254,21 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   inputContainer: {
-    flexDirection: "row", // Align items horizontally
-    alignItems: "center", // Center items vertically
+    flexDirection: "row", 
+    alignItems: "center", 
     backgroundColor: "#f0f0f0",
     borderRadius: 8,
-    paddingHorizontal: 20,
+    paddingRight: 20,
+    paddingLeft: 10,
     width: "90%",
   },
   icon: {
     marginRight: 5,
+  },
+  iconContainer: {
+    width: 35,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   text: {
     fontSize: 20,
@@ -266,7 +279,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    // height: 60,
     paddingVertical: 15,
     backgroundColor: "#ffffff",
     marginBottom: 10,
@@ -274,14 +286,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
   },
   inputBox: {
-    flex: 1, // Take up the remaining space
+    flex: 1,
     paddingVertical: 10,
-    paddingLeft: 5, // Adjust for padding between icon and text
+    paddingLeft: 5,
     fontSize: 16,
+    fontWeight: '500',
     color: "#000",
   },
   miniContainer: {
-    // backgroundColor: '#ffffff',
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 15,
     padding: 10,
@@ -295,7 +307,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: "500",
     color: "black",
     textAlign: "left",
   },

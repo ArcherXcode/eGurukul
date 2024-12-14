@@ -7,7 +7,7 @@ const App = () => {
 
     return (
         <Stack
-        initialRouteName='/signup'
+        initialRouteName='signup'
         screenOptions={{
             headerStyle: {
                 backgroundColor: '#1e90FF',
